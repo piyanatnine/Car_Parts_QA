@@ -2,6 +2,8 @@
 node_modules
 /dist
 
+# video Background
+/src/assets/Car_Engine_Parts_3.mov
 
 # local env files
 .env.local

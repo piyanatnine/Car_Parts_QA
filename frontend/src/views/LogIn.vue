@@ -1,7 +1,6 @@
 <template>
   <section class="hero is-light is-fullheight">
     <div class="bg-img">
-        <img src="../assets/BG_CarParts.jpg">
     </div>
     <div class="hero-body">
       <div class="container">
@@ -44,15 +43,17 @@
               <div class="field is-grouped is-grouped-centered">
                 <button class="button is-success is-lg">Login</button>
               </div>
-              <div class="field is-grouped is-grouped-centered">
-                <span><br>Need an account? <a class="has-text-link">Sign up</a></span>
-              </div>
+              <!-- <div class="field is-grouped is-grouped-centered">
+                <span><br>forgot password? <a class="has-text-info">contact Admin</a></span>
+              </div> -->
             </form>
           </div>
         </div>
       </div>
     </div>
-    
+    <div :class="pageloader" class="pageloader is-bottom-to-top is-dark">
+      <span class="title">Pageloader</span>
+    </div>
   </section>
 </template>
 
@@ -63,8 +64,29 @@
     left: 0;
     right: 0;
     position: fixed;
-    background-image: url("../assets/BG_CarParts.jpg");
+    background-image: url("../assets/img/BG_CarParts.jpg");
     background-size: cover;
     opacity: 0.3;
   }
 </style>
+
+<script>
+export default {
+  data() {
+    return {
+      pageloader: 'is-active'
+    }
+  },
+  methods: {
+  },
+  created: async function() {
+      let afterloader = new Promise(function (myResolve) {
+        setTimeout(() => {
+          return myResolve("");
+        }, 1000);
+      });
+
+      this.pageloader = await afterloader;
+  }  
+}
+</script>

@@ -13,6 +13,16 @@ const routes = [
     path: '/login',
     name: 'LogIn',
     component: () => import('../views/LogIn.vue') // LogIn screen after Homepage
+  },
+  {
+    path: '/:project_id/:part_number',
+    name: 'part_page',
+    component: () => import('../views/PartPage.vue') // PartInformation Page
+  },
+  {
+    path: '/:project_id',
+    name: 'project_page',
+    component: () => import('../views/ProjectPage.vue') // ProjectInformation Page 
   }
 ]
 

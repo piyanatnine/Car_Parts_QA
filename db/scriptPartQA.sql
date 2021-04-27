@@ -46,7 +46,7 @@ create table `document`
     uploder int(8) ,
     upload_datetime timestamp not null DEFAULT CURRENT_TIMESTAMP,
     approver int(8) ,
-    approved_datetime timestamp not null DEFAULT CURRENT_TIMESTAMP,
+    approved_datetime timestamp DEFAULT CURRENT_TIMESTAMP,
     preceding_doc int(8) ,
     FOREIGN KEY (part_number) REFERENCES project(project_id),
     FOREIGN KEY (uploder) REFERENCES employee(employee_id),

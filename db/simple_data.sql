@@ -1,11 +1,37 @@
 insert into `customer` (customer_id, customer_name) values 
-('1', 'Michael'),
-('2', 'Sofie');
+(1, 'Michael'),
+(2, 'Sofie'),
+(3, 'Oliver'),
+(4, 'Jack'),
+(5, 'Harry'),
+(6, 'Thomas'),
+(7, 'Emily'),
+(8, 'Amelia'),
+(9, 'Taylor'),
+(10, 'Evans');
+
 
 insert into `project` (project_id, project_name, customer_id) values
-('1', 'TestProjectA', '1'),
-('2', 'TestProjectB', '1'),
-('3', 'TestProjectC', '2');
+(1, 'TestProjectA', 1),
+(2, 'TestProjectB', 1),
+(3, 'TestProjectC', 2),
+(4, 'TestProjectD', 3),
+(5, 'TestProjectE', 4),
+(6, 'TestProjectF', 3),
+(7, 'TestProjectG', 5),
+(8, 'TestProjectH', 5),
+(9, 'TestProjectI', 6),
+(10, 'TestProjectJ', 3),
+(11, 'TestProjectK', 8),
+(12, 'TestProjectL', 2),
+(13, 'TestProjectM', 8),
+(14, 'TestProjectN', 10),
+(15, 'TestProjectO', 7),
+(16, 'TestProjectP', 2),
+(17, 'TestProjectQ', 10),
+(18, 'TestProjectR', 9),
+(19, 'TestProjectS', 4),
+(20, 'TestProjectT', 4);
 
 
 insert into `employee` (employee_id, first_name, last_name, position, username ,password) values 
@@ -33,14 +59,13 @@ insert into `project_employee` (project_id, employee_ID) values
 (10, 10101010);
 
 insert into `part` (part_number, part_name, part_drawing, project_id) values
-(, '', '', ),
-(, '', '', ),
-(, '', '', ),
-(, '', '', ),
-(, '', '', ),
-(, '', '', ),
-(, '', '', ),
-(, '', '', ),
-(, '', '', ),
-(, '', '', ),
-(, '', '', ),
+(00000001, 'tail_light', 'drawing_001.pdf', 10),
+(00000002, 'doors', 'drawing_002.pdf', 6),
+(00000003, 'hoods', 'drawing_003.pdf', 8),
+(00000004, 'mirrors', 'drawing_004.pdf', 1),
+(00000005, 'grilles', 'drawing_005.pdf', 2),
+(00000006, 'bumpers', 'drawing_006.pdf', 5),
+(00000007, 'fenders', 'drawing_007.pdf', 4),
+(00000008, 'radiator_supports', 'drawing_008.pdf', 3),
+(00000009, 'wheels', 'drawing_009.pdf', 7),
+(00000010, 'air_filter', 'drawing_0010.pdf', 9);

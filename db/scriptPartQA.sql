@@ -41,7 +41,7 @@ create table `document`
     upload_no int(8) primary key,
     file_name varchar(255) not null,
     document_type enum('Work_Inst', 'Inspection', 'Q_Point') not null,
-    satatus enum('Approved', 'Temporary') not null,
+    status enum('Approved', 'Temporary') not null,
     part_number int(8) ,
     uploder int(8) ,
     upload_datetime timestamp not null DEFAULT CURRENT_TIMESTAMP,

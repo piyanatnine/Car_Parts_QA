@@ -160,7 +160,7 @@
               <th style="width: 5"></th>
             </thead>
             <tbody>
-              <tr class="is-size-5 has-text-centered" style="line-height: 8vh">
+              <tr class="is-size-5 has-text-centered" style="line-height: 10vh">
                 <td>Work Instruction</td>
                 <td>
                   <span>
@@ -171,12 +171,14 @@
                   </span>
                 </td>
                 <td>
-                  <span class="icon">
-                    <i class="fas fa-clock fa-2x"></i>
-                  </span>
+                  <div class="mt-2">
+                    <span class="icon">
+                      <i class="fas fa-clock fa-2x"></i>
+                    </span>
+                  </div>
                 </td>
                 <td class="">
-                  <div class="select is-primary">
+                  <div class="select is-primary mt-3">
                     <select v-model="document_part.status">
                       <option value="Temporary">Temporary</option>
                       <option value="Approve">Approve</option>
@@ -184,15 +186,15 @@
                   </div>
                 </td>
                 <td class="pt-4">
-                  <div class="icon-text">
+                  <div class="icon-text mt-4">
                     <span class="icon" :class="colorIcon">
-                      <i class="fas fa-circle fa-2x"></i>
+                      <i class="fas fa-circle fa-3x"></i>
                     </span>
                   </div>
                 </td>
                 <td>
                   <div
-                    class="button is-link is-fullwidth"
+                    class="button is-link is-fullwidth mt-4"
                     @click="upload('Work_Inst')"
                   >
                     <span class="icon">
@@ -213,12 +215,14 @@
                   </span>
                 </td>
                 <td>
-                  <span class="icon">
-                    <i class="fas fa-clock fa-2x"></i>
-                  </span>
+                  <div class="mt-2">
+                    <span class="icon">
+                      <i class="fas fa-clock fa-2x"></i>
+                    </span>
+                  </div>
                 </td>
-                <td class="">
-                  <div class="select is-primary">
+                <td>
+                  <div class="select is-primary mt-3">
                     <select v-model="document_part.status">
                       <option value="Temporary">Temporary</option>
                       <option value="Approve">Approve</option>
@@ -226,16 +230,58 @@
                   </div>
                 </td>
                 <td class="pt-4">
-                  <div class="icon-text">
+                  <div class="icon-text mt-4">
                     <span class="icon" :class="colorIcon">
-                      <i class="fas fa-circle fa-2x"></i>
+                      <i class="fas fa-circle fa-3x"></i>
                     </span>
                   </div>
                 </td>
                 <td>
                   <div
-                    class="button is-link is-fullwidth"
+                    class="button is-link is-fullwidth mt-4"
                     @click="upload('Inspection')"
+                  >
+                    <span class="icon">
+                      <i class="fas fa-pen"></i>
+                    </span>
+                    <span> Upload </span>
+                  </div>
+                </td>
+              </tr>
+              <tr class="is-size-5 has-text-centered" style="line-height: 10vh">
+                <td>Q-Point</td>
+                <td>
+                  <span>
+                    <a :href="Document_URL" download>
+                      <i class="fas fa-link mx-2"></i>
+                      Document_URL
+                    </a>
+                  </span>
+                </td>
+                <td>
+                  <span class="icon mt-2">
+                    <i class="fas fa-clock fa-2x"></i>
+                  </span>
+                </td>
+                <td>
+                  <div class="select is-primary mt-3">
+                    <select v-model="document_part.status">
+                      <option value="Temporary">Temporary</option>
+                      <option value="Approve">Approve</option>
+                    </select>
+                  </div>
+                </td>
+                <td class="pt-4">
+                  <div class="icon-text mt-4">
+                    <span class="icon" :class="colorIcon">
+                      <i class="fas fa-circle fa-3x"></i>
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <div
+                    class="button is-link is-fullwidth mt-4"
+                    @click="upload('Q_Point')"
                   >
                     <span class="icon">
                       <i class="fas fa-pen"></i>
@@ -249,24 +295,53 @@
         </div>
       </div>
     </section>
+    <!-- Upload Document -->
     <div class="modal" :class="{ 'is-active': upload_page }">
-      <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">Modal title</p>
-          <button class="delete" aria-label="close" @click= "upload_page = false;"></button>
+          <p class="modal-card-title">UPLOAD DOCUMENT {{ type }}</p>
+          <button
+            class="delete"
+            aria-label="close"
+            @click="upload_page = false"
+          ></button>
         </header>
         <section class="modal-card-body">
           <!-- Content ... -->
+          <div class="form">
+            <div class="file has-name is-fullwidth">
+              <label class="file-label">
+                <input class="file-input" type="file" name="resume" 
+                accept=".pdf" @change= "previewFiles"/>
+                <span class="file-cta">
+                  <span class="file-icon">
+                    <i class="fas fa-upload"></i>
+                  </span>
+                  <span class="file-label"> Choose a file… </span>
+                </span>
+                <span class="file-name">
+                  {{ file_name }}
+                </span>
+              </label>
+            </div>
+          </div>
         </section>
         <footer class="modal-card-foot">
           <nav class="level">
-              <button class="level-item has-text-centered button" @click= "upload_page = false;">Cancel</button>
-              <button class="level-item button is-success">Submit</button>
+            <button
+              class="level-item has-text-centered button"
+              @click="upload_page = false"
+            >
+              Cancel
+            </button>
+            <button class="level-item button is-success" @click= "upload_summit">Submit</button>
           </nav>
         </footer>
       </div>
     </div>
+    <!-- Edit -->
+    <div class="model" :class="{ 'is-active': editpage }"></div>
+
     <div :class="pageloader" class="pageloader is-bottom-to-top is-dark">
       <span class="title">Pageloader</span>
     </div>
@@ -306,6 +381,8 @@ export default {
       upload_page: false,
       type: null,
       file_name: null,
+      file_PDF: null,
+      pev_number: null,
     };
   },
   methods: {
@@ -335,6 +412,24 @@ export default {
     upload(type) {
       this.upload_page = true;
       this.type = type;
+      this.pev_number = this.document_part.upload_no;
+    },
+    previewFiles(file) {
+      this.file_PDF = file.target.files[0]
+      console.info(this.file_PDF);
+      this.file_name = file.target.files[0].name;
+    },
+    upload_summit() {
+      var data = {
+        File_Name: this.file_name,
+        Document_URL: '.../a/a'+this.file_name,
+        Document_Type: this.type,
+        Status: 'Temporary',
+        Part_Number: this.part.part_number,
+        Uploader: this.user.employee_id
+      }
+      console.log(data)
+      this.upload_page = false
     }
   },
   created: async function () {
@@ -349,7 +444,6 @@ export default {
   },
   computed: {
     colorIcon: function () {
-      console.log(this.document_part.status);
       if (this.document_part.status == null) {
         return "has-text-grey";
       } else if (this.document_part.status == "Temporary") {

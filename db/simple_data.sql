@@ -68,4 +68,4 @@ insert into `part` (part_number, part_name, part_drawing, project_id) values
 (00000007, 'fenders', 'drawing_007.pdf', 4),
 (00000008, 'radiator_supports', 'drawing_008.pdf', 3),
 (00000009, 'wheels', 'drawing_009.pdf', 7),
-(00000010, 'air_filter', 'drawing_0010.pdf', 9);
+(00000010, 'air_filter', 'drawing_010.pdf', 9);

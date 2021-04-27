@@ -31,3 +31,16 @@ insert into `project_employee` (project_id, employee_ID) values
 (8, 88888888),
 (9, 99999999),
 (10, 10101010);
+
+insert into `part` (part_number, part_name, part_drawing, project_id) values
+(, '', '', ),
+(, '', '', ),
+(, '', '', ),
+(, '', '', ),
+(, '', '', ),
+(, '', '', ),
+(, '', '', ),
+(, '', '', ),
+(, '', '', ),
+(, '', '', ),
+(, '', '', ),

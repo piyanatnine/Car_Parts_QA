@@ -30,7 +30,7 @@ create table `part`
 (
     part_number int(8) primary key,
     part_name varchar(100) not null,
-    part_deawing varchar(255) not null,
+    part_drawing varchar(255) not null,
     project_id int(8),
     FOREIGN KEY (project_id) REFERENCES project(project_id)
 );
@@ -44,14 +44,13 @@ create table `document`
     document_type enum('Work_Inst', 'Inspection', 'Q_Point') not null,
     status enum('Approved', 'Temporary') not null,
     part_number int(8) ,
-    uploder int(8) ,
+    uploader int(8) ,
     upload_datetime timestamp not null DEFAULT CURRENT_TIMESTAMP,
     approver int(8) ,
     approved_datetime timestamp DEFAULT CURRENT_TIMESTAMP,
     preceding_doc int(8) ,
-    FOREIGN KEY (part_number) REFERENCES project(project_id),
-    FOREIGN KEY (uploder) REFERENCES employee(employee_id),
+    FOREIGN KEY (part_number) REFERENCES part(part_number),
+    FOREIGN KEY (uploader) REFERENCES employee(employee_id),
     FOREIGN KEY (approver) REFERENCES employee(employee_id),
     FOREIGN KEY (preceding_doc) REFERENCES document(upload_no)
 );
-

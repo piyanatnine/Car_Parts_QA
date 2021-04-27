@@ -1,11 +1,11 @@
 <template>
   <section>
     <nav class="navbar is-dark py-3 pr-5 is-fixed-top">
-      <div class="navbar-brand ml-5" @click= "loaderPage('/')">
-          <div class="navbar-item pl-4">
-            <img class="image is-32x32" src="../assets/img/icon.png" />
-            <span class="px-4 textIcon"> This is Icon</span>
-          </div>
+      <div class="navbar-brand ml-5" @click="loaderPage('/')">
+        <div class="navbar-item pl-4">
+          <img class="image is-32x32" src="../assets/img/icon.png" />
+          <span class="px-4 textIcon"> This is Icon</span>
+        </div>
       </div>
       <div class="navbar-start pl-5">
         <span class="navbar-item icon-text" @click="sidebar = !sidebar">
@@ -35,7 +35,7 @@
           <div class="navbar-item">
             <button
               class="login button is-rounded is-small"
-              @click= "loaderPage('/logIn')"
+              @click="loaderPage('/logIn')"
             >
               <span class="has-text-weight-bold">Login</span>
             </button>
@@ -93,109 +93,180 @@
     </aside>
     <section class="section main-content">
       <div class="container is-fluid">
-            <nav class="breadcrumb is-centered is-medium" aria-label="breadcrumbs">
-                <ul>
-                    <li @click= "loaderPage('/')"><a> HOMEPAGE </a></li>
-                    <li @click= "loaderPage(`/${part.project_id}`)"><a>{{ zeroPad(part.project_id) }} </a></li>
-                    <li class="is-active" aria-current="page"><a>{{ zeroPad(part.part_number) }}</a></li>
-                </ul>
-            </nav>
+        <nav class="breadcrumb is-centered is-medium" aria-label="breadcrumbs">
+          <ul>
+            <li @click="loaderPage('/')"><a> HOMEPAGE </a></li>
+            <li @click="loaderPage(`/${part.project_id}`)">
+              <a>{{ zeroPad(part.project_id) }} </a>
+            </li>
+            <li class="is-active" aria-current="page">
+              <a>{{ zeroPad(part.part_number) }}</a>
+            </li>
+          </ul>
+        </nav>
       </div>
       <div class="container is-fluid my-5">
         <div class="level">
           <div class="level-left">
-              <div class="level-item">
-                  <p class="title has-text-weight-bold" style="font-size: 5vw;">
-                      {{ part.part_name }}
-                  </p>
-              </div>
-              <div class="level-item mx-5 pt-3 ">
-                  <p class="subtitle has-text-weight-medium" style="font-size: 2vw;">
-                      Part Number: {{ zeroPad(part.part_number) }}
-                  </p>
-              </div>
+            <div class="level-item">
+              <p class="title has-text-weight-bold" style="font-size: 5vw">
+                {{ part.part_name }}
+              </p>
+            </div>
+            <div class="level-item mx-5 pt-3">
+              <p class="subtitle has-text-weight-medium" style="font-size: 2vw">
+                Part Number: {{ zeroPad(part.part_number) }}
+              </p>
+            </div>
           </div>
           <div class="level-right mr-5">
-              <div class="level-item" v-if= "user.position == 'Admin'">
-                  <div class="button is-danger">
-                    <span class="icon">
-                      <i class="fas fa-pen"></i>
-                    </span>
-                    <span> Edit Part</span>
-                  </div>
+            <div class="level-item" v-if="user.position == 'Admin'">
+              <div class="button is-danger">
+                <span class="icon">
+                  <i class="fas fa-pen"></i>
+                </span>
+                <span> Edit Part</span>
               </div>
+            </div>
           </div>
         </div>
         <div class="container pl-5">
           <div class="mx-2">
-            <span class="is-size-4"> Project ID: {{ zeroPad(part.project_id) }} </span>
+            <span class="is-size-4">
+              Project ID: {{ zeroPad(part.project_id) }}
+            </span>
           </div>
           <div class="mx-2 my-1">
-            <span class="is-size-4"> Last Update:  ------------- </span>
+            <span class="is-size-4"> Last Update: ------------- </span>
           </div>
           <div class="mx-2 my-5">
-            <span class="is-size-4"> Drawing of Part:  
-                <a :href= "part.part_drawing" download>
-                    <i class="fas fa-link ml-2"></i>
-                    Download PDF File
-                </a>
+            <span class="is-size-4">
+              Drawing of Part:
+              <a :href="part.part_drawing" download>
+                <i class="fas fa-link ml-2"></i>
+                Download PDF File
+              </a>
             </span>
           </div>
         </div>
-        <div class="container" style="margin-top: 12vh;">
-            <table class="table is-fullwidth">
-                <thead class="is-size-4 has-text-centered">
-                    <th> Document </th>
-                    <th>Last File Upload</th>
-                    <th>History</th>
-                    <th>Status</th>
-                    <th></th>
-                    <th style="width: 5"></th>
-                </thead>
-                <tbody>
-                  <tr class="is-size-5 has-text-centered" style="line-height: 8vh;">
-                    <td> Work Instruction </td>
-                    <td> 
-                      <span> 
-                        <a :href= "Document_URL" download>
-                          <i class="fas fa-link mx-2"></i>
-                          Document_URL
-                        </a>
-                      </span>
-                    </td>
-                    <td>
-                      <span class="icon">
-                          <i class="fas fa-clock fa-2x"></i>
-                      </span>
-                    </td>
-                    <td class="">
-                      <div class="message is-small is-rounder">
-                          <div class="message-header">
-                            {{ document_part.status }}
-                          </div>
-                      </div>
-                    </td>
-                    <td class="pt-4">
-                      <div class="icon-text">
-                      <span class="icon" :class= "colorIcon">
-                          <i class="fas fa-circle fa-2x"></i>
-                      </span>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="button is-link is-fullwidth">
-                          <span class="icon">
-                              <i class="fas fa-pen"></i>
-                          </span>
-                          <span> Upload </span>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-            </table>
+        <div class="container" style="margin-top: 12vh">
+          <table class="table is-fullwidth">
+            <thead class="is-size-4 has-text-centered">
+              <th>Document</th>
+              <th>Last File Upload</th>
+              <th>History</th>
+              <th>Status</th>
+              <th></th>
+              <th style="width: 5"></th>
+            </thead>
+            <tbody>
+              <tr class="is-size-5 has-text-centered" style="line-height: 8vh">
+                <td>Work Instruction</td>
+                <td>
+                  <span>
+                    <a :href="Document_URL" download>
+                      <i class="fas fa-link mx-2"></i>
+                      Document_URL
+                    </a>
+                  </span>
+                </td>
+                <td>
+                  <span class="icon">
+                    <i class="fas fa-clock fa-2x"></i>
+                  </span>
+                </td>
+                <td class="">
+                  <div class="select is-primary">
+                    <select v-model="document_part.status">
+                      <option value="Temporary">Temporary</option>
+                      <option value="Approve">Approve</option>
+                    </select>
+                  </div>
+                </td>
+                <td class="pt-4">
+                  <div class="icon-text">
+                    <span class="icon" :class="colorIcon">
+                      <i class="fas fa-circle fa-2x"></i>
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <div
+                    class="button is-link is-fullwidth"
+                    @click="upload('Work_Inst')"
+                  >
+                    <span class="icon">
+                      <i class="fas fa-pen"></i>
+                    </span>
+                    <span> Upload </span>
+                  </div>
+                </td>
+              </tr>
+              <tr class="is-size-5 has-text-centered" style="line-height: 10vh">
+                <td>Inspection</td>
+                <td>
+                  <span>
+                    <a :href="Document_URL" download>
+                      <i class="fas fa-link mx-2"></i>
+                      Document_URL
+                    </a>
+                  </span>
+                </td>
+                <td>
+                  <span class="icon">
+                    <i class="fas fa-clock fa-2x"></i>
+                  </span>
+                </td>
+                <td class="">
+                  <div class="select is-primary">
+                    <select v-model="document_part.status">
+                      <option value="Temporary">Temporary</option>
+                      <option value="Approve">Approve</option>
+                    </select>
+                  </div>
+                </td>
+                <td class="pt-4">
+                  <div class="icon-text">
+                    <span class="icon" :class="colorIcon">
+                      <i class="fas fa-circle fa-2x"></i>
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <div
+                    class="button is-link is-fullwidth"
+                    @click="upload('Inspection')"
+                  >
+                    <span class="icon">
+                      <i class="fas fa-pen"></i>
+                    </span>
+                    <span> Upload </span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
+    <div class="modal" :class="{ 'is-active': upload_page }">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Modal title</p>
+          <button class="delete" aria-label="close" @click= "upload_page = false;"></button>
+        </header>
+        <section class="modal-card-body">
+          <!-- Content ... -->
+        </section>
+        <footer class="modal-card-foot">
+          <nav class="level">
+              <button class="level-item has-text-centered button" @click= "upload_page = false;">Cancel</button>
+              <button class="level-item button is-success">Submit</button>
+          </nav>
+        </footer>
+      </div>
+    </div>
     <div :class="pageloader" class="pageloader is-bottom-to-top is-dark">
       <span class="title">Pageloader</span>
     </div>
@@ -211,26 +282,30 @@ export default {
       pageloader: "is-active",
       sidebar: false,
       part: {
-          part_number: 1,
-          part_name: "PartTest A1",
-          part_drawing: require(`../assets/img/part_img.png`),
-          project_id: 1,
+        part_number: 1,
+        part_name: "PartTest A1",
+        part_drawing: require(`../assets/img/part_img.png`),
+        project_id: 1,
       },
       user: {
-        employee_id: 'AM-102', 
-        first_name: 'Jame' , 
-        last_name: 'smite',
-        position: 'Admin'
+        employee_id: "AM-102",
+        first_name: "Jame",
+        last_name: "smite",
+        position: "Admin",
       },
       document_part: {
         upload_no: 1,
-        file_name: 'Test WI',
-        document_type: 'Work_Inst' ,
-        status: 'Temporary',
+        file_name: "Test WI",
+        document_type: "Work_Inst",
+        status: "Temporary",
         Part_Number: 1,
-        uploader: 'QA-102',
+        uploader: "QA-102",
         Upload_Datetime: new Date(),
-      }
+      },
+      //uploadpage
+      upload_page: false,
+      type: null,
+      file_name: null,
     };
   },
   methods: {
@@ -256,6 +331,10 @@ export default {
     },
     zeroPad(num) {
       return num.toString().padStart(8, "0");
+    },
+    upload(type) {
+      this.upload_page = true;
+      this.type = type;
     }
   },
   created: async function () {
@@ -269,22 +348,19 @@ export default {
     //axios data
   },
   computed: {
-    colorIcon: function() {
-      console.log(this.document_part.status)
+    colorIcon: function () {
+      console.log(this.document_part.status);
       if (this.document_part.status == null) {
-        return 'has-text-grey';
+        return "has-text-grey";
+      } else if (this.document_part.status == "Temporary") {
+        return "has-text-danger";
+      } else if (this.document_part.status == "Approve") {
+        return "has-text-success";
+      } else {
+        return "";
       }
-      else if (this.document_part.status == 'Temporary') {
-        return 'has-text-danger';
-      }
-      else if (this.document_part.status == 'Approve') {
-        return 'has-text-success';
-      } 
-      else {
-        return '';
-      }
-    }
-  }
+    },
+  },
 };
 </script>
 

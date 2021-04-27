@@ -93,16 +93,106 @@
     </aside>
     <section class="section main-content">
       <div class="container is-fluid">
-        <div class="columns is-centered">
-          <div class="column"></div>
-          <div class="column has-text-centered unselect">
-            <p class="is-size-6"> 
-              <strong @click= "loaderPage('/')">HOMEPAGE</strong>  / 
-              <strong @click= "loaderPage(`/${part.project_id}`)">{{ zeroPad(part.project_id) }}</strong> /
-              {{ zeroPad(part.part_number) }}
-            </p>
+            <nav class="breadcrumb is-centered is-medium" aria-label="breadcrumbs">
+                <ul>
+                    <li @click= "loaderPage('/')"><a> HOMEPAGE </a></li>
+                    <li @click= "loaderPage(`/${part.project_id}`)"><a>{{ zeroPad(part.project_id) }} </a></li>
+                    <li class="is-active" aria-current="page"><a>{{ zeroPad(part.part_number) }}</a></li>
+                </ul>
+            </nav>
+      </div>
+      <div class="container is-fluid my-5">
+        <div class="level">
+          <div class="level-left">
+              <div class="level-item">
+                  <p class="title has-text-weight-bold" style="font-size: 5vw;">
+                      {{ part.part_name }}
+                  </p>
+              </div>
+              <div class="level-item mx-5 pt-3 ">
+                  <p class="subtitle has-text-weight-medium" style="font-size: 2vw;">
+                      Part Number: {{ zeroPad(part.part_number) }}
+                  </p>
+              </div>
           </div>
-          <div class="column"></div>
+          <div class="level-right mr-5">
+              <div class="level-item" v-if= "user.position == 'Admin'">
+                  <div class="button is-danger">
+                    <span class="icon">
+                      <i class="fas fa-pen"></i>
+                    </span>
+                    <span> Edit Part</span>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <div class="container pl-5">
+          <div class="mx-2">
+            <span class="is-size-4"> Project ID: {{ zeroPad(part.project_id) }} </span>
+          </div>
+          <div class="mx-2 my-1">
+            <span class="is-size-4"> Last Update:  ------------- </span>
+          </div>
+          <div class="mx-2 my-5">
+            <span class="is-size-4"> Drawing of Part:  
+                <a :href= "part.part_drawing" download>
+                    <i class="fas fa-link ml-2"></i>
+                    Download PDF File
+                </a>
+            </span>
+          </div>
+        </div>
+        <div class="container" style="margin-top: 12vh;">
+            <table class="table is-fullwidth">
+                <thead class="is-size-4 has-text-centered">
+                    <th> Document </th>
+                    <th>Last File Upload</th>
+                    <th>History</th>
+                    <th>Status</th>
+                    <th></th>
+                    <th style="width: 5"></th>
+                </thead>
+                <tbody>
+                  <tr class="is-size-5 has-text-centered" style="line-height: 8vh;">
+                    <td> Work Instruction </td>
+                    <td> 
+                      <span> 
+                        <a :href= "Document_URL" download>
+                          <i class="fas fa-link mx-2"></i>
+                          Document_URL
+                        </a>
+                      </span>
+                    </td>
+                    <td>
+                      <span class="icon">
+                          <i class="fas fa-clock fa-2x"></i>
+                      </span>
+                    </td>
+                    <td class="">
+                      <div class="message is-small is-rounder">
+                          <div class="message-header">
+                            {{ document_part.status }}
+                          </div>
+                      </div>
+                    </td>
+                    <td class="pt-4">
+                      <div class="icon-text">
+                      <span class="icon" :class= "colorIcon">
+                          <i class="fas fa-circle fa-2x"></i>
+                      </span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="button is-link is-fullwidth">
+                          <span class="icon">
+                              <i class="fas fa-pen"></i>
+                          </span>
+                          <span> Upload </span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
         </div>
       </div>
     </section>
@@ -122,9 +212,24 @@ export default {
       sidebar: false,
       part: {
           part_number: 1,
-          part_name: "partTestA1",
+          part_name: "PartTest A1",
           part_drawing: require(`../assets/img/part_img.png`),
           project_id: 1,
+      },
+      user: {
+        employee_id: 'AM-102', 
+        first_name: 'Jame' , 
+        last_name: 'smite',
+        position: 'Admin'
+      },
+      document_part: {
+        upload_no: 1,
+        file_name: 'Test WI',
+        document_type: 'Work_Inst' ,
+        status: 'Temporary',
+        Part_Number: 1,
+        uploader: 'QA-102',
+        Upload_Datetime: new Date(),
       }
     };
   },
@@ -162,8 +267,24 @@ export default {
     });
     this.pageloader = await afterloader;
     //axios data
-
   },
+  computed: {
+    colorIcon: function() {
+      console.log(this.document_part.status)
+      if (this.document_part.status == null) {
+        return 'has-text-grey';
+      }
+      else if (this.document_part.status == 'Temporary') {
+        return 'has-text-danger';
+      }
+      else if (this.document_part.status == 'Approve') {
+        return 'has-text-success';
+      } 
+      else {
+        return '';
+      }
+    }
+  }
 };
 </script>
 

@@ -158,7 +158,7 @@
                   </div>
                 </div>
               </nav>
-              <table class="table is-fullwidth">
+              <table class="homepage table is-fullwidth">
                 <thead>
                   <tr>
                     <th style="width: 60%">Name</th>
@@ -223,6 +223,27 @@
                   </template>
                 </tbody>
               </table>
+              <div>
+                <div class="buttons has-addons is-centered are-medium">
+                  <button
+                    class="button"
+                    @click="page--"
+                    :class="page <= 1 ? 'is-static' : ''"
+                  >
+                    ◄
+                  </button>
+                  <button class="button is-static">
+                    {{ page }}
+                  </button>
+                  <button
+                    class="button"
+                    @click="page++"
+                    :class="page >= pageCount('projects') ? 'is-static' : ''"
+                  >
+                    ►
+                  </button>
+                </div>
+              </div>
             </div>
           </template>
           <template v-if="!listItem">
@@ -306,7 +327,7 @@
                   <button
                     class="button"
                     @click="page++"
-                    :class="page >= pageCount(parts.lenght) ? 'is-static' : ''"
+                    :class="page >= pageCount('parts') ? 'is-static' : ''"
                   >
                     ►
                   </button>
@@ -446,8 +467,15 @@ export default {
         console.log(err);
       }
     },
-    pageCount() {
-      let val = Math.ceil(this.parts.length / 10);
+    pageCount(listVal) {
+      let val = 0
+      if (listVal == 'parts') {
+        val = Math.ceil(this.parts.length / 10);
+      }
+      else if(listVal == 'project') {
+        val = Math.ceil(this.projects.length / 5);
+      }
+      
       return val;
     },
     zeroPad(num) {
@@ -490,7 +518,7 @@ section .main-content {
   animation: slideDisplay 0.5s ease;
 }
 
-table tr:hover td{
+.homepage tr:hover td{
   background-color:hsl(0, 0%, 86%);
 }
 

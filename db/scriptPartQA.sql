@@ -54,3 +54,13 @@ create table `document`
     FOREIGN KEY (approver) REFERENCES employee(employee_id),
     FOREIGN KEY (preceding_doc) REFERENCES document(upload_no)
 );
+
+DROP TABLE IF EXISTS project_employee;
+CREATE TABLE project_employee(
+project_id int(8) ,
+employee_id int(6) ,
+ CONSTRAINT project_id_fk foreign key (project_id) REFERENCES project(project_id),
+ CONSTRAINT employee_id_fk foreign key (employee_id) REFERENCES employee(employee_id)
+);
+
+

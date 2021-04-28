@@ -46,7 +46,7 @@ insert into employee (employee_id, first_name, last_name, position, username ,pa
 (99999999, 'sommai', 'kloyjai', 'Admin', 'AdminSommai','$2y$12$/WSedgjVsscZgeLIW6DFe.dOC88Hk4gTsDVuY1TPP1/P1SKc8aJAO'), /*som216516515*/
 (10101010, 'somsuay', 'naja', 'Admin', 'AdminSomsuay','$2y$12$2rTO7Ck5WW5JNbejPDqS0usvfYcmRNOtpmvZPaCsS0iNyIE41QCRi'); /*somsuayInwZa007*/
 
-insert into project (project_id, employee_ID) values 
+insert into project_employee (project_id, employee_ID) values 
 (1, 11111111),
 (2, 22222222),
 (3, 33333333),
@@ -81,5 +81,4 @@ insert into document (upload_no, file_name, document_url, document_type, status,
 (20000008, 'file008', 'document_008', 'Work_Inst', 'Approved', 00000001, 33333333, '2021-02-3 11:11:02', 44444444, '2021-02-05 10:58:25', null),  
 (20000009, 'file009', 'document_009', 'Inspection', 'Approved', 00000004, 88888888, '2021-02-5 12:59:00', 44444444, '2021-02-10 16:21:21', null),
 (20000010, 'file010', 'document_010', 'Work_Inst', 'Temporary', 00000001, 33333333, '2021-02-25 13:01:57', null, null,20000003); 
-
 

@@ -46,7 +46,7 @@ insert into employee (employee_id, first_name, last_name, position, username ,pa
 (99999999, 'sommai', 'kloyjai', 'Admin', 'AdminSommai','$2y$12$/WSedgjVsscZgeLIW6DFe.dOC88Hk4gTsDVuY1TPP1/P1SKc8aJAO'), /*som216516515*/
 (10101010, 'somsuay', 'naja', 'Admin', 'AdminSomsuay','$2y$12$2rTO7Ck5WW5JNbejPDqS0usvfYcmRNOtpmvZPaCsS0iNyIE41QCRi'); /*somsuayInwZa007*/
 
-insert into project_employee (project_id, employee_ID) values 
+insert into project (project_id, employee_ID) values 
 (1, 11111111),
 (2, 22222222),
 (3, 33333333),
@@ -70,145 +70,16 @@ insert into part (part_number, part_name, part_drawing, project_id) values
 (00000009, 'wheels', 'drawing_009.pdf', 7),
 (00000010, 'air_filter', 'drawing_010.pdf', 9);
 
-insert into document (upload_no, file_name, document_url, document_type, status, part_number, uploader, upload_datetime, approver, approved_datetime) values
-(20000001, 'file001', 'document_001', 'Inspection', 'Approved', 00000005, 77777777, '2021-01-019 11:11:02', 44444444, '2021-01-22 10:53:03'), /*pre doc=not null 1*/
-(20000002, 'file002', 'document_002', 'Q_Point', 'Approved', 00000002, 77777777, '2021-01-23 13:31:12',22222222 , '2021-01-24 15:23:02'), /*pre doc=not null 2*/
-(20000003, 'file003', 'document_003', 'Work_Inst', 'Temporary', 00000001, 10101010, '2021-01-23 15:11:02', null, null), /*pre doc=not null 3*/
-(20000004, 'file004', 'document_004', 'Q_Point', 'Temporary', 00000006, 11111111, '2021-01-24 14:20:00', null, null), /*null 4*/
-(20000005, 'file005', 'document_005', 'Q_Point', 'Approved', 00000007, 66666666, '2021-01-24 14:31:05', 22222222, '2021-01-28 10:13:33'), /*null 5*/
-(20000006, 'file006', 'document_006', 'Inspection', 'Temporary', 00000009, 99999999, '2021-01-27 09:11:52', null, null), /*pre doc=not null 6*/
-(20000007, 'file007', 'document_007', 'Inspection', 'Approved', 00000010, 10101010, '2021-02-01 10:01:10', 55555555, '2021-02-02 9:23:13'),  /*pre doc=not null 7*/
-(20000008, 'file008', 'document_008', 'Work_Inst', 'Approved', 00000008, 33333333, '2021-02-3 11:11:02', 44444444, '2021-02-05 10:58:25'),  /*pre doc=not null 8*/
-(20000009, 'file009', 'document_009', 'Inspection', 'Approved', 00000004, 88888888, '2021-02-5 12:59:00', 44444444, '2021-02-10 16:21:21'), /*null 9*/
-(20000010, 'file010', 'document_010', 'Work_Inst', 'Temporary', 00000003, 33333333, '2021-02-5 13:01:57', null, null); /*null 10*/
+insert into document (upload_no, file_name, document_url, document_type, status, part_number, uploader, upload_datetime, approver, approved_datetime, preceding_doc) values
+(20000001, 'file001', 'document_001', 'Inspection', 'Approved', 00000005, 77777777, '2021-01-25 11:11:02', 44444444, '2021-01-26 10:53:03', 20000002), 
+(20000002, 'file002', 'document_002', 'Inspection', 'Approved', 00000005, 77777777, '2021-01-23 13:31:12',22222222 , '2021-01-24 15:23:02', null), 
+(20000003, 'file003', 'document_003', 'Work_Inst', 'Temporary', 00000001, 10101010, '2021-02-15 15:11:02', null, null,20000008), 
+(20000004, 'file004', 'document_004', 'Q_Point', 'Temporary', 00000006, 11111111, '2021-01-27 14:20:00', null, null, 20000005), 
+(20000005, 'file005', 'document_005', 'Q_Point', 'Approved', 00000006, 66666666, '2021-01-24 14:31:05', 77777777, '2021-01-26 10:13:33', null), 
+(20000006, 'file006', 'document_006', 'Inspection', 'Temporary', 00000009, 99999999, '2021-01-27 09:11:52', null, null, 20000007), 
+(20000007, 'file007', 'document_007', 'Inspection', 'Approved', 00000010, 10101010, '2021-01-01 10:01:10', 55555555, '2021-01-25 9:23:13', null),  
+(20000008, 'file008', 'document_008', 'Work_Inst', 'Approved', 00000001, 33333333, '2021-02-3 11:11:02', 44444444, '2021-02-05 10:58:25', null),  
+(20000009, 'file009', 'document_009', 'Inspection', 'Approved', 00000004, 88888888, '2021-02-5 12:59:00', 44444444, '2021-02-10 16:21:21', null),
+(20000010, 'file010', 'document_010', 'Work_Inst', 'Temporary', 00000001, 33333333, '2021-02-25 13:01:57', null, null,20000003); 
 
 
-set @up_no := (
-    select upload_No 
-    from document
-    where upload_datatime = max(
-                            select upload_datatime
-                            from document 
-                            where upload_datatime != max(
-                                                        select upload_datatime
-                                                        from document 
-                                                        where document_type = 'Inspection'
-                                                        and part_number = '00000005'
-                                                        ) 
-                            )
-);
-
-insert into document (preceding_doc)
-values (@up_no)
-where upload_No = 20000001;
-/*-----------------------------*/
-set @up_no := (
-    select upload_No 
-    from document
-    where upload_datatime = max(
-                            select upload_datatime
-                            from document 
-                            where upload_datatime != max(
-                                                        select upload_datatime
-                                                        from document 
-                                                        where document_type = 'Q_Point'
-                                                        and part_number = '00000002'
-                                                        ) 
-                            )
-);
-
-insert into document (preceding_doc)
-values (@up_no)
-where upload_No = 20000002;
-/*-----------------------------*/
-set @up_no := (
-    select upload_No 
-    from document
-    where upload_datatime = max(
-                            select upload_datatime
-                            from document 
-                            where upload_datatime != max(
-                                                        select upload_datatime
-                                                        from document 
-                                                        where document_type = 'Work_Inst'
-                                                        and part_number = '00000001'
-                                                        ) 
-                            )
-);
-
-insert into document (preceding_doc)
-values (@up_no)
-where upload_No = 20000003;
-/*-----------------------------*/
-set @up_no := (
-    select upload_No 
-    from document
-    where upload_datatime = max(
-                            select upload_datatime
-                            from document 
-                            where upload_datatime != max(
-                                                        select upload_datatime
-                                                        from document 
-                                                        where document_type = 'Inspection'
-                                                        and part_number = '00000009'
-                                                        ) 
-                            )
-);
-
-insert into document (preceding_doc)
-values (@up_no)
-where upload_No = 20000006;
-/*-----------------------------*/
-set @up_no := (
-    select upload_No 
-    from document
-    where upload_datatime = max(
-                            select upload_datatime
-                            from document 
-                            where upload_datatime != max(
-                                                        select upload_datatime
-                                                        from document 
-                                                        where document_type = 'Inspection'
-                                                        and part_number = '00000010'
-                                                        ) 
-                            )
-);
-
-insert into document (preceding_doc)
-values (@up_no)
-where upload_No = 20000007;
-/*-----------------------------*/
-set @up_no := (
-    select upload_No 
-    from document
-    where upload_datatime = max(
-                            select upload_datatime
-                            from document 
-                            where upload_datatime != max(
-                                                        select upload_datatime
-                                                        from document 
-                                                        where document_type = 'Work_Inst'
-                                                        and part_number = '00000008'
-                                                        ) 
-                            )
-);
-
-insert into document (preceding_doc)
-values (@up_no)
-where upload_No = 20000008;
-/*-----------------------------null 4 5 9 10*/
-insert into document (preceding_doc)
-values (null)
-where upload_No = 20000004;
-
-insert into document (preceding_doc)
-values (null)
-where upload_No = 20000005;
-
-insert into document (preceding_doc)
-values (null)
-where upload_No = 20000009;
-
-insert into document (preceding_doc)
-values (null)
-where upload_No = 20000010;

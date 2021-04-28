@@ -71,14 +71,14 @@ insert into part (part_number, part_name, part_drawing, project_id) values
 (00000010, 'air_filter', 'drawing_010.pdf', 9);
 
 insert into document (upload_no, file_name, document_url, document_type, status, part_number, uploader, upload_datetime, approver, approved_datetime, preceding_doc) values
-(20000001, 'file001', 'document_001', 'Inspection', 'Approved', 00000005, 77777777, '2021-01-25 11:11:02', 44444444, '2021-01-26 10:53:03', 20000002), 
-(20000002, 'file002', 'document_002', 'Inspection', 'Approved', 00000005, 77777777, '2021-01-23 13:31:12',22222222 , '2021-01-24 15:23:02', null), 
-(20000003, 'file003', 'document_003', 'Work_Inst', 'Temporary', 00000001, 10101010, '2021-02-15 15:11:02', null, null,20000008), 
-(20000004, 'file004', 'document_004', 'Q_Point', 'Temporary', 00000006, 11111111, '2021-01-27 14:20:00', null, null, 20000005), 
-(20000005, 'file005', 'document_005', 'Q_Point', 'Approved', 00000006, 66666666, '2021-01-24 14:31:05', 77777777, '2021-01-26 10:13:33', null), 
-(20000006, 'file006', 'document_006', 'Inspection', 'Temporary', 00000009, 99999999, '2021-01-27 09:11:52', null, null, 20000007), 
-(20000007, 'file007', 'document_007', 'Inspection', 'Approved', 00000010, 10101010, '2021-01-01 10:01:10', 55555555, '2021-01-25 9:23:13', null),  
-(20000008, 'file008', 'document_008', 'Work_Inst', 'Approved', 00000001, 33333333, '2021-02-3 11:11:02', 44444444, '2021-02-05 10:58:25', null),  
-(20000009, 'file009', 'document_009', 'Inspection', 'Approved', 00000004, 88888888, '2021-02-5 12:59:00', 44444444, '2021-02-10 16:21:21', null),
-(20000010, 'file010', 'document_010', 'Work_Inst', 'Temporary', 00000001, 33333333, '2021-02-25 13:01:57', null, null,20000003); 
+(20000001, 'file001', 'document_001', 'Inspection', 'Approved', 00000005, 77777777, '2021-01-23 13:31:12',22222222 , '2021-01-24 15:23:02', null), 
+(20000002, 'file002', 'document_002', 'Inspection', 'Approved', 00000005, 77777777, '2021-01-25 11:11:02', 44444444, '2021-01-26 10:53:03', 20000002), 
+(20000003, 'file003', 'document_003', 'Work_Inst', 'Temporary', 00000001, 10101010, '2021-01-27 15:11:02', null, null,20000008), 
+(20000004, 'file004', 'document_004', 'Q_Point', 'Approved', 00000006, 66666666, '2021-01-27 16:31:05', 22222222, '2021-01-28 10:13:33', null), 
+(20000005, 'file005', 'document_005', 'Q_Point', 'Temporary', 00000006, 11111111, '2021-01-30 14:20:00', null, null, 20000005), 
+(20000006, 'file006', 'document_006', 'Inspection', 'Approved', 00000010, 10101010, '2021-02-01 10:01:10', 55555555, '2021-02-02 9:23:13', null),  
+(20000007, 'file007', 'document_007', 'Inspection', 'Temporary', 00000009, 99999999, '2021-02-05 09:11:52', null, null, 20000007), 
+(20000008, 'file008', 'document_008', 'Work_Inst', 'Approved', 00000001, 33333333, '2021-02-06 11:11:02', 44444444, '2021-02-08 10:58:25', null),  
+(20000009, 'file009', 'document_009', 'Inspection', 'Approved', 00000004, 88888888, '2021-02-07 12:59:00', 44444444, '2021-02-08 16:21:21', null),
+(20000010, 'file010', 'document_010', 'Work_Inst', 'Temporary', 00000001, 33333333, '2021-02-15 13:01:57', null, null,20000003); 
 

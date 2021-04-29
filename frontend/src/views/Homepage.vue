@@ -66,32 +66,6 @@
       :style="{ left: sidebar ? 0 : -50 + 'vw' }"
     >
       <div class="vl"></div>
-      <p class="menu-label">Banana</p>
-      <ul class="menu-list">
-        <li><a>Banana</a></li>
-        <li><a>Bakaka</a></li>
-      </ul>
-      <p class="menu-label">BaBaBaBaBaa</p>
-      <ul class="menu-list">
-        <li><a>BabuBabu</a></li>
-        <li>
-          <a class="is-active">UkaUkakaaaaa</a>
-          <ul>
-            <li><a>yabe</a></li>
-            <li><a>yahooo</a></li>
-            <li><a>yaruneeee</a></li>
-          </ul>
-        </li>
-        <li><a>oraaa</a></li>
-        <li><a>ogaaaaaaa</a></li>
-        <li><a>lourara</a></li>
-      </ul>
-      <p class="menu-label">Tatayabaga</p>
-      <ul class="menu-list">
-        <li><a>ukaukauka</a></li>
-        <li><a>Tatatatatata</a></li>
-        <li><a>Bababububebe</a></li>
-      </ul>
     </aside>
 
     <!-- main content -->
@@ -168,58 +142,37 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <template v-for="(project, index) in projects">
+                  <template v-if= "projects != null">
+                  <template v-for= "project in projects.slice(page * 5 - 5, page * 5)">
                     <tr
-                      :class= "project.readmore ? '' : 'delBorder'"
+                      :class= "more[0] ? '' : 'delBorder'"
                       :key= "`${project.project_id}-${project.project_name}`"
                     >
-                      <td @click= "loaderPage(`/${project.project_id}`)"> 
+                      <td class="is-size-4 has-text-weight-bold" @click= "loaderPage(`/${project.project_id}`)"> 
                           {{ project.project_name}}
                       </td>
-                      <td class="has-text-info is-uppercase pt-5">
-                        inprogress
+                      <td class="has-text-info is-uppercase pt-5 has-text-weight-bold">
+                        {{  project.completeness != "100" ? 'inprogress' : 'complete' }}
                       </td>
                       <td>
-                        <div :class="'p' + percents[index]" class="c100 small">
-                          <span>{{ percents[index] + "%" }}</span>
+                        <div :class= "'p' + integer(project.completeness)" class="c100 small">
+                          <span>{{ integer(project.completeness) + "%" }}</span>
                           <div class="slice">
                             <div class="bar"></div>
                             <div class="fill"></div>
                           </div>
                         </div>
                       </td>
-                      <td>
-                        <span
-                          class="icon pt-5"
-                          @click="project.statusPage.readmore = !project.statusPage.readmore"
-                        >
+                      <td class="has-text-centered pt-3"
+                          @click= "loaderPage(`/${project.project_id}`)">
+                        <span class="icon pt-5">
                           <i
-                            class="fas fa-2x"
-                            :class="
-                              project.statusPage.readmore ? 'fa-caret-up' : 'fa-caret-down'
-                            "
-                          ></i>
+                            class="fas fa-3x <i fas fa-caret-right">
+                          </i>
                         </span>
                       </td>
                     </tr>
-                    <div
-                      :style="{ display: project.statusPage.readmore ? '' : 'none' }"
-                      class="dropdownInfo"
-                      :key="`${project.project_id}-${project.statusPage.readmore}`"
-                    >
-                      <tr>
-                        <td colspan="4">Part of Project</td>
-                      </tr>
-                      <div class="content">
-                      <ul class="px-5 pb-3">
-                      <template v-for="part in parts">
-                            <li class="mb-3" v-if= "part.project_id == project.project_id" :key= "`${part.project_id}-${part.part_number}`"> 
-                                <strong>Part Number:</strong>{{ " "+zeroPad(part.part_number)}}<strong>  Part Name:</strong> {{ " "+part.part_name }}
-                            </li>
-                      </template>
-                      </ul>
-                      </div>
-                    </div>
+                  </template>
                   </template>
                 </tbody>
               </table>
@@ -238,7 +191,7 @@
                   <button
                     class="button"
                     @click="page++"
-                    :class="page >= pageCount('projects') ? 'is-static' : ''"
+                    :class="page >= pageCount('project') ? 'is-static' : ''"
                   >
                     ►
                   </button>
@@ -295,10 +248,11 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <template v-if= "parts != null">
                   <template
                     v-for="part in parts.slice(page * 10 - 10, page * 10)"
                   >
-                    <tr :key="`${part.part_number}`">
+                    <tr :key="`${part.part_number}`" class="has-text-weight-semibold">
                       <td>{{ zeroPad(part.part_number) }}</td>
                       <td>{{ part.part_name }}</td>
                       <td>{{ zeroPad(part.project_id) }}</td>
@@ -309,6 +263,7 @@
                         </button>
                       </td>
                     </tr>
+                  </template>
                   </template>
                 </tbody>
               </table>
@@ -346,6 +301,7 @@
 
 <script>
 console.clear()
+import axios from "axios";
 import router from "../router/index.js";
 /* eslint-disable */
 export default {
@@ -355,95 +311,10 @@ export default {
       pageloader: "is-active",
       sidebar: true,
       listItem: true,
+      more: [false, false],
       page: 1,
-      percents: [60, 100],
-      projects: [
-        {
-          project_name: "TestA",
-          project_id: 1,
-          customer_id: 1,
-          
-          statusPage: { 
-            readmore: false
-          }
-        },
-        {
-          project_name: "TestB",
-          project_id: 2,
-          customer_id: 2,
-          statusPage: { 
-            readmore: false
-          }
-        },
-      ],
-      parts: [
-        {
-          part_number: 1,
-          part_name: "partTestA1",
-          part_drawing: require(`../assets/img/part_img.png`),
-          project_id: 1,
-        },
-        {
-          part_number: 2,
-          part_name: "partTestB1",
-          part_drawing: require(`../assets/img/part_img.png`),
-          project_id: 2,
-        },
-        {
-          part_number: 3,
-          part_name: "partTestB2",
-          part_drawing: require(`../assets/img/part_img.png`),
-          project_id: 2,
-        },
-        {
-          part_number: 4,
-          part_name: "partTestA2",
-          part_drawing: require(`../assets/img/part_img.png`),
-          project_id: 1,
-        },
-        {
-          part_number: 5,
-          part_name: "partTestA3",
-          part_drawing: require(`../assets/img/part_img.png`),
-          project_id: 1,
-        },
-        {
-          part_number: 6,
-          part_name: "partTestA1",
-          part_drawing: require(`../assets/img/part_img.png`),
-          project_id: 1,
-        },
-        {
-          part_number: 7,
-          part_name: "partTestB1",
-          part_drawing: require(`../assets/img/part_img.png`),
-          project_id: 2,
-        },
-        {
-          part_number: 8,
-          part_name: "partTestB2",
-          part_drawing: require(`../assets/img/part_img.png`),
-          project_id: 2,
-        },
-        {
-          part_number: 9,
-          part_name: "partTestA2",
-          part_drawing: require(`../assets/img/part_img.png`),
-          project_id: 1,
-        },
-        {
-          part_number: 10,
-          part_name: "partTestA3",
-          part_drawing: require(`../assets/img/part_img.png`),
-          project_id: 1,
-        },
-        {
-          part_number: 11,
-          part_name: "partTestA3",
-          part_drawing: require(`../assets/img/part_img.png`),
-          project_id: 1,
-        },
-      ],
+      projects: null,
+      parts: null
     };
   },
   methods: {
@@ -475,12 +346,16 @@ export default {
       }
       else if(listVal == 'project') {
         val = Math.ceil(this.projects.length / 5);
+        console.log('page: '+ val)
       }
       
       return val;
     },
     zeroPad(num) {
       return num.toString().padStart(8, "0");
+    },
+    integer(val){
+      return parseInt(val)
     }
   },
   watch: {
@@ -489,12 +364,28 @@ export default {
     }
   },
   created: async function () {
+   await axios.get("http://localhost:3000/")
+        .then((response) => {
+          this.projects = response.data.projects;
+          this.parts = response.data.parts;
+          this.projects.map( value => {
+              var a = {
+                more: false
+              } 
+              value.status_page = a;
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+    });
+
     let afterloader = new Promise(function (myResolve) {
       setTimeout(() => {
         return myResolve("");
       }, 1000);
     });
     this.pageloader = await afterloader;
+
   }
 };
 </script>

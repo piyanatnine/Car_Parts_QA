@@ -1,21 +1,22 @@
-const express = require('express')
-const app = express()
-const path = require('path')
+const express = require("express")
+var cors = require('cors')
+const path = require("path")
 
-// Setup ejs
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+const app = express();
+app.use(cors())
+// Statics
+app.use(express.static('static'))
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
-// const article = require('./article-db')
+// routers
+const home_Router = require('./routes/homepage.js')
+const project_Router = require('./routes/projectpage.js')
 
-// Config Router
-const homeRouter = require('./routes/homepage.js')
 
-app.use('/', homeRouter)
+app.use(home_Router.router);
+app.use(project_Router.router);
 
 app.listen(3000, () => {
   console.log(`Example app listening at http://localhost:3000`)

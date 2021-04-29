@@ -47,7 +47,7 @@ create table `document`
     uploader int(8) ,
     upload_datetime timestamp not null DEFAULT CURRENT_TIMESTAMP,
     approver int(8) ,
-    approved_datetime timestamp DEFAULT CURRENT_TIMESTAMP,
+    approved_datetime timestamp,
     preceding_doc int(8) ,
     FOREIGN KEY (part_number) REFERENCES part(part_number),
     FOREIGN KEY (uploader) REFERENCES employee(employee_id),

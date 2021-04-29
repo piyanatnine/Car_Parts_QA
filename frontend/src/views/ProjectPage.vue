@@ -64,13 +64,14 @@
     >
       <div class="vl"></div>
     </aside>
+    <template v-if= "project != null">
     <section class="section main-content">
       <div class="container is-fluid">
         <nav class="breadcrumb is-centered is-medium" aria-label="breadcrumbs">
           <ul>
             <li @click="loaderPage('/')"><a> HOMEPAGE </a></li>
             <li class="is-active" aria-current="page">
-              <a>{{ zeroPad(project.project_id) }} </a>
+              <a>{{ zeroPad(project[0].project_id) }} </a>
             </li>
           </ul>
         </nav>
@@ -79,12 +80,12 @@
         <div class="level-left">
           <div class="level-item">
             <p class="title has-text-weight-bold" style="font-size: 5vw">
-              {{ "Project " + project.project_name }}
+              {{ "Project " + project[0].project_name }}
             </p>
           </div>
           <div class="level-item mx-5 pt-3">
             <p class="subtitle has-text-weight-medium" style="font-size: 2vw">
-              {{ `project ID:` + zeroPad(project.project_id) }}
+              {{ `project ID:` + zeroPad(project[0].project_id) }}
             </p>
           </div>
         </div>
@@ -112,7 +113,7 @@
                 <th>Q-Point</th>
               </thead>
               <tbody>
-                <template v-for="part in parts">
+                <template v-for="part in project">
                   <tr
                     class="is-size-5 has-text-centered"
                     @click = "loaderPage(`/${part.project_id}/${part.part_number}`)"
@@ -172,7 +173,7 @@
           <!-- Content ... -->
           <div class="has-text-centered">
             <span class="is-size-4 has-text-weight-semibold"> 
-              {{ 'Project ID: ' + zeroPad(project.project_id) }}
+              {{ 'Project ID: ' + zeroPad(project[0].project_id) }}
             </span>
               <div class="field is-horizontal my-5">
               <div class="field-label is-normal">
@@ -223,7 +224,7 @@
           <!-- Content ... -->
           <div class="has-text-centered">
             <span class="is-size-3 has-text-weight-semibold"> 
-              {{ 'Project ID: ' + zeroPad(project.project_id) }}
+              {{ 'Project ID: ' + zeroPad(project[0].project_id) }}
             </span>
             <div>
               <span class="has-text-danger is-size-4 has-text-weight-semibold">
@@ -260,6 +261,7 @@
         </footer>
       </div>
     </div>
+    </template>
     <div :class="pageloader" class="pageloader is-bottom-to-top is-dark">
       <span class="title">Pageloader</span>
     </div>
@@ -274,7 +276,7 @@
 </style>
 
 <script>
-console.clear();
+import axios from "axios";
 import router from "../router/index.js";
 export default {
   data() {
@@ -291,69 +293,7 @@ export default {
         last_name: "smite",
         position: "Admin",
       },
-      project: {
-        project_name: "A",
-        project_id: 1,
-        customer_id: 1,
-      },
-      parts: [
-        {
-          part_number: 1,
-          part_name: "partTestA1",
-          project_id: 1,
-          wi_status: "Temporary",
-          inspection_status: "Temporary",
-          qpoint_status: "Approve",
-        },
-        {
-          part_number: 2,
-          part_name: "partTestB1",
-          project_id: 1,
-          wi_status: "Temporary",
-          inspection_status: "Temporary",
-          qpoint_status: "Approve",
-        },
-        {
-          part_number: 3,
-          part_name: "partTestB2",
-          project_id: 1,
-          wi_status: "Temporary",
-          inspection_status: "Temporary",
-          qpoint_status: "Approve",
-        },
-        {
-          part_number: 4,
-          part_name: "partTestA2",
-          project_id: 1,
-          wi_status: "Temporary",
-          inspection_status: "Temporary",
-          qpoint_status: "Approve",
-        },
-        {
-          part_number: 5,
-          part_name: "partTestA3",
-          project_id: 1,
-          wi_status: "Temporary",
-          inspection_status: "Temporary",
-          qpoint_status: "Approve",
-        },
-        {
-          part_number: 6,
-          part_name: "partTestA1",
-          project_id: 1,
-          wi_status: "Temporary",
-          inspection_status: "Temporary",
-          qpoint_status: "Approve",
-        },
-        {
-          part_number: 7,
-          part_name: "partTestB1",
-          project_id: 1,
-          wi_status: "Temporary",
-          inspection_status: "Temporary",
-          qpoint_status: "Approve",
-        },
-      ],
+      project: null,
       //projectEdit
       projectname: null,
     };
@@ -380,15 +320,15 @@ export default {
         console.log(err);
       }
     },
-    zeroPad(num) {
-      return num.toString().padStart(8, "0");
+    zeroPad(val) {
+      return val.toString().padStart(8, "0");
     },
     colorStatus(val) {
       if (val == null) {
         return "has-text-grey";
       } else if (val == "Temporary") {
         return "has-text-danger";
-      } else if (val == "Approve") {
+      } else if (val == "Approved") {
         return "has-text-success";
       } else {
         return "";
@@ -410,6 +350,14 @@ export default {
     }
   },
   created: async function () {
+      await axios.get(`http://localhost:3000/${this.$route.params.project_id}`)
+        .then((response) => {
+          this.project = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+      });
+
     let afterloader = new Promise(function (myResolve) {
       setTimeout(() => {
         return myResolve("");

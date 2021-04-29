@@ -65,32 +65,8 @@
     >
       <div class="vl"></div>
       <p class="menu-label">Banana</p>
-      <ul class="menu-list">
-        <li><a>Banana</a></li>
-        <li><a>Bakaka</a></li>
-      </ul>
-      <p class="menu-label">BaBaBaBaBaa</p>
-      <ul class="menu-list">
-        <li><a>BabuBabu</a></li>
-        <li>
-          <a class="is-active">UkaUkakaaaaa</a>
-          <ul>
-            <li><a>yabe</a></li>
-            <li><a>yahooo</a></li>
-            <li><a>yaruneeee</a></li>
-          </ul>
-        </li>
-        <li><a>oraaa</a></li>
-        <li><a>ogaaaaaaa</a></li>
-        <li><a>lourara</a></li>
-      </ul>
-      <p class="menu-label">Transactions</p>
-      <ul class="menu-list">
-        <li><a>Payments</a></li>
-        <li><a>Transfers</a></li>
-        <li><a>Balance</a></li>
-      </ul>
     </aside>
+    <template v-if="part != null">
     <section class="section main-content">
       <div class="container is-fluid">
         <nav class="breadcrumb is-centered is-medium" aria-label="breadcrumbs">
@@ -422,7 +398,7 @@
         </footer>
       </div>
     </div>
-
+    </template>
     <div :class="pageloader" class="pageloader is-bottom-to-top is-dark">
       <span class="title">Pageloader</span>
     </div>
@@ -437,27 +413,16 @@ export default {
       loginStatus: true,
       pageloader: "is-active",
       sidebar: false,
-      part: {
-        part_number: 1,
-        part_name: "PartTest A1",
-        part_drawing: require(`../assets/img/part_img.png`),
-        project_id: 1,
-      },
+      part: null,
       user: {
         employee_id: "AM-102",
         first_name: "Jame",
         last_name: "smite",
         position: "Admin",
       },
-      document_part: {
-        upload_no: 1,
-        file_name: "Test WI",
-        document_type: "Work_Inst",
-        status: "Temporary",
-        Part_Number: 1,
-        uploader: "QA-102",
-        Upload_Datetime: new Date(),
-      },
+      Work_Inst: null,
+      Inspection: null,
+      Q_Point: null,
       //uploadpage
       upload_page: false,
       type: null,
@@ -528,6 +493,7 @@ export default {
       this.editpage = false;
     },
   },
+  //เดะตื่นมาทำ เชื่อมbackend
   created: async function () {
     //loader Page
     let afterloader = new Promise(function (myResolve) {

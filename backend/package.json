@@ -1,30 +1,19 @@
 {
-  "name": "week09-exercise",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "แบบฝึกหัดสัปดาห์ที่ 9 Express / MySql",
+  "description": "QA_Part_car",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "nodemon index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/it-web-pro/WEEK09-EXERCISE.git"
+    "url": "git+https://github.com/piyanatnine/Car_Parts_QA.git"
   },
-  "author": "",
+  "author": "ITKMITL",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/it-web-pro/WEEK09-EXERCISE/issues"
+    "url": "https://github.com/piyanatnine/Car_Parts_QA/issues"
   },
-  "homepage": "https://github.com/it-web-pro/WEEK09-EXERCISE#readme",
-  "dependencies": {
-    "ejs": "^3.1.6",
-    "express": "^4.17.1",
-    "multer": "^1.4.2",
-    "mysql2": "^2.2.5",
-    "mysql2-promise": "^0.1.4"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.7"
-  }
+  "homepage": "https://github.com/piyanatnine/Car_Parts_QA#readme"
 }

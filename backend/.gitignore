@@ -1,9 +1,9 @@
 .DS_Store
 node_modules
 /dist
-
-# video Background
-/src/assets/Car_Engine_Parts_3.mov
+/node_modules
+# sql password
+/config.js
 
 # local env files
 .env.local
@@ -23,3 +23,4 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+*.sql

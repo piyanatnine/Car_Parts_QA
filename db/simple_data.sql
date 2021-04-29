@@ -79,6 +79,6 @@ insert into document (upload_no, file_name, document_url, document_type, status,
 (20000006, 'file006', 'document_006', 'Inspection', 'Approved', 00000010, 10101010, '2021-02-01 10:01:10', 55555555, '2021-02-02 9:23:13', null),  
 (20000007, 'file007', 'document_007', 'Inspection', 'Temporary', 00000009, 99999999, '2021-02-05 09:11:52', null, null, 20000007), 
 (20000008, 'file008', 'document_008', 'Work_Inst', 'Approved', 00000001, 33333333, '2021-02-06 11:11:02', 44444444, '2021-02-08 10:58:25', null),  
-(20000009, 'file009', 'document_009', 'Inspection', 'Approved', 00000004, 88888888, '2021-02-07 12:59:00', 44444444, '2021-02-08 16:21:21', null),
-(20000010, 'file010', 'document_010', 'Work_Inst', 'Temporary', 00000001, 33333333, '2021-02-15 13:01:57', null, null,20000003); 
+(20000009, 'file009', 'document_009', 'Inspection', 'Approved', 00000004, 88888888, '2021-02-09 12:59:00', 44444444, '2021-02-10 16:21:21', null),
+(20000010, 'file010', 'document_010', 'Q_Point', 'Temporary', 00000001, 33333333, '2021-02-15 13:01:57', null, null,20000003); 
 

@@ -362,6 +362,7 @@ export default {
           project_name: "TestA",
           project_id: 1,
           customer_id: 1,
+          
           statusPage: { 
             readmore: false
           }

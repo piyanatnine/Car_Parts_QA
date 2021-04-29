@@ -121,7 +121,7 @@
           </div>
           <div class="level-right mr-5">
             <div class="level-item" v-if="user.position == 'Admin'">
-              <div class="button is-danger">
+              <div class="button is-danger" @click="editPageOpen()">
                 <span class="icon">
                   <i class="fas fa-pen"></i>
                 </span>
@@ -164,7 +164,7 @@
                 <td>Work Instruction</td>
                 <td>
                   <span>
-                    <a :href="Document_URL" download>
+                    <a download>
                       <i class="fas fa-link mx-2"></i>
                       Document_URL
                     </a>
@@ -208,7 +208,7 @@
                 <td>Inspection</td>
                 <td>
                   <span>
-                    <a :href="Document_URL" download>
+                    <a download>
                       <i class="fas fa-link mx-2"></i>
                       Document_URL
                     </a>
@@ -252,7 +252,7 @@
                 <td>Q-Point</td>
                 <td>
                   <span>
-                    <a :href="Document_URL" download>
+                    <a download>
                       <i class="fas fa-link mx-2"></i>
                       Document_URL
                     </a>
@@ -311,8 +311,13 @@
           <div class="form">
             <div class="file has-name is-fullwidth">
               <label class="file-label">
-                <input class="file-input" type="file" name="resume" 
-                accept=".pdf" @change= "previewFiles"/>
+                <input
+                  class="file-input"
+                  type="file"
+                  name="resume"
+                  accept=".pdf"
+                  @change="previewFiles"
+                />
                 <span class="file-cta">
                   <span class="file-icon">
                     <i class="fas fa-upload"></i>
@@ -334,13 +339,89 @@
             >
               Cancel
             </button>
-            <button class="level-item button is-success" @click= "upload_summit">Submit</button>
+            <button class="level-item button is-success" @click="upload_summit">
+              Submit
+            </button>
           </nav>
         </footer>
       </div>
     </div>
+
     <!-- Edit -->
-    <div class="model" :class="{ 'is-active': editpage }"></div>
+    <div class="modal" :class="{ 'is-active': editpage }">
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Edit Part</p>
+          <button
+            class="delete"
+            aria-label="close"
+            @click="editpage = false"
+          ></button>
+        </header>
+        <section class="modal-card-body has-background-white-bis">
+          <!-- Content ... -->
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">Part Name :</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <p class="control">
+                    <input
+                      class="input"
+                      type="name"
+                      placeholder="Part name"
+                      v-model="partname"
+                    />
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">Drawing:</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="file is-fullwidth">
+                    <label class="file-label">
+                      <input
+                        class="file-input"
+                        type="file"
+                        name="resume"
+                        accept=".pdf"
+                        @change="previewFiles"
+                      />
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label"> Choose a file… </span>
+                      </span>
+                      <span class="file-name">
+                        {{ file_name }}
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+          <nav class="level">
+            <button
+              class="level-item has-text-centered button"
+              @click="editpage = false"
+            >
+              Cancel
+            </button>
+            <button class="level-item button is-success" @click="editConfirm">
+              Submit
+            </button>
+          </nav>
+        </footer>
+      </div>
+    </div>
 
     <div :class="pageloader" class="pageloader is-bottom-to-top is-dark">
       <span class="title">Pageloader</span>
@@ -383,6 +464,9 @@ export default {
       file_name: null,
       file_PDF: null,
       pev_number: null,
+      //editpage
+      editpage: false,
+      partname: null,
     };
   },
   methods: {
@@ -415,22 +499,34 @@ export default {
       this.pev_number = this.document_part.upload_no;
     },
     previewFiles(file) {
-      this.file_PDF = file.target.files[0]
+      this.file_PDF = file.target.files[0];
       console.info(this.file_PDF);
       this.file_name = file.target.files[0].name;
     },
     upload_summit() {
       var data = {
         File_Name: this.file_name,
-        Document_URL: '.../a/a'+this.file_name,
+        Document_URL: ".../a/a" + this.file_name,
         Document_Type: this.type,
-        Status: 'Temporary',
+        Status: "Temporary",
         Part_Number: this.part.part_number,
-        Uploader: this.user.employee_id
-      }
-      console.log(data)
-      this.upload_page = false
-    }
+        Uploader: this.user.employee_id,
+      };
+      this.file_name = null
+      this.file_PDF = null
+      console.log(data);
+      this.upload_page = false;
+    },
+    editPageOpen() {
+      this.editpage = true;
+      this.partname = this.part.part_name;
+    },
+    editConfirm() {
+      //axios
+      this.file_name = null
+      this.file_PDF = null
+      this.editpage = false;
+    },
   },
   created: async function () {
     //loader Page

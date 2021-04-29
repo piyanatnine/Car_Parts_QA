@@ -2,6 +2,7 @@
 node_modules
 /dist
 /node_modules
+
 # sql password
 /config.js
 

@@ -5,7 +5,7 @@
         <a href="/">
           <div class="navbar-item pl-4">
             <img class="image is-32x32" src="../assets/img/icon.png" />
-            <span class="px-4 textIcon"> This is Icon</span>
+            <span class="px-4 textIcon "> CarPart QA</span>
           </div>
         </a>
       </div>

@@ -4,7 +4,7 @@
       <div class="navbar-brand ml-5" @click="loaderPage('/')">
         <div class="navbar-item pl-4">
           <img class="image is-32x32" src="../assets/img/icon.png" />
-          <span class="px-4 textIcon"> This is Icon</span>
+          <span class="px-4 textIcon"> Car Part QA</span>
         </div>
       </div>
       <div class="navbar-start pl-5">
@@ -64,7 +64,6 @@
       :style="{ left: sidebar ? 0 : -50 + 'vw' }"
     >
       <div class="vl"></div>
-      <p class="menu-label">Banana</p>
     </aside>
     <template v-if="part != null">
     <section class="section main-content">
@@ -118,7 +117,7 @@
           <div class="mx-2 my-5">
             <span class="is-size-4">
               Drawing of Part:
-              <a :href="part.part_drawing" download>
+              <a :href= "part.part_drawing" download>
                 <i class="fas fa-link ml-2"></i>
                 Download PDF File
               </a>
@@ -137,33 +136,41 @@
             </thead>
             <tbody>
               <tr class="is-size-5 has-text-centered" style="line-height: 10vh">
-                <td>Work Instruction</td>
+                <td>Work_Inst</td>
                 <td>
                   <span>
                     <a download>
                       <i class="fas fa-link mx-2"></i>
-                      Document_URL
+                      {{ Work_Inst == null ? 'Document_URL': Work_Inst.file_name }}
                     </a>
                   </span>
                 </td>
                 <td>
-                  <div class="mt-2">
-                    <span class="icon">
-                      <i class="fas fa-clock fa-2x"></i>
-                    </span>
-                  </div>
+                  <span class="icon mt-2">
+                    <i class="fas fa-clock fa-2x"></i>
+                  </span>
                 </td>
-                <td class="">
+                <td>
                   <div class="select is-primary mt-3">
-                    <select v-model="document_part.status">
+                    <template  v-if = "Work_Inst != null">
+                      <select v-model="Work_Inst.status">
+                        <option value="NULL" selected disabled hidden>No Document</option>
+                        <option value="Temporary">Temporary</option>
+                        <option value="Approved">Approved</option>
+                      </select>
+                    </template>
+                    <template  v-else>
+                    <select disabled>
+                      <option value="NULL" selected disabled hidden>No Document</option>
                       <option value="Temporary">Temporary</option>
-                      <option value="Approve">Approve</option>
+                      <option value="Approved">Approved</option>
                     </select>
+                    </template>
                   </div>
                 </td>
                 <td class="pt-4">
                   <div class="icon-text mt-4">
-                    <span class="icon" :class="colorIcon">
+                    <span class="icon" :class= "Work_Inst == null ? 'has-text-grey': colorIcon(Work_Inst.status)">
                       <i class="fas fa-circle fa-3x"></i>
                     </span>
                   </div>
@@ -186,28 +193,36 @@
                   <span>
                     <a download>
                       <i class="fas fa-link mx-2"></i>
-                      Document_URL
+                      {{ Inspection == null ? 'Document_URL': Inspection.file_name }}
                     </a>
                   </span>
                 </td>
                 <td>
-                  <div class="mt-2">
-                    <span class="icon">
-                      <i class="fas fa-clock fa-2x"></i>
-                    </span>
-                  </div>
+                  <span class="icon mt-2">
+                    <i class="fas fa-clock fa-2x"></i>
+                  </span>
                 </td>
                 <td>
                   <div class="select is-primary mt-3">
-                    <select v-model="document_part.status">
+                    <template  v-if = "Inspection != null">
+                      <select v-model="Inspection.status">
+                        <option value="NULL" selected disabled hidden>No Document</option>
+                        <option value="Temporary">Temporary</option>
+                        <option value="Approved">Approved</option>
+                      </select>
+                    </template>
+                    <template  v-else>
+                    <select disabled>
+                      <option value="NULL" selected disabled hidden>No Document</option>
                       <option value="Temporary">Temporary</option>
-                      <option value="Approve">Approve</option>
+                      <option value="Approved">Approved</option>
                     </select>
+                    </template>
                   </div>
                 </td>
                 <td class="pt-4">
                   <div class="icon-text mt-4">
-                    <span class="icon" :class="colorIcon">
+                    <span class="icon" :class= "Inspection == null ? 'has-text-grey': colorIcon(Inspection.status)" >
                       <i class="fas fa-circle fa-3x"></i>
                     </span>
                   </div>
@@ -230,7 +245,7 @@
                   <span>
                     <a download>
                       <i class="fas fa-link mx-2"></i>
-                      Document_URL
+                      {{ Q_Point == null ? 'Document_URL': Q_Point.file_name }}
                     </a>
                   </span>
                 </td>
@@ -241,15 +256,25 @@
                 </td>
                 <td>
                   <div class="select is-primary mt-3">
-                    <select v-model="document_part.status">
+                    <template  v-if = "Q_Point != null">
+                      <select v-model="Q_Point.status">
+                        <option value="NULL" selected disabled hidden>No Document</option>
+                        <option value="Temporary">Temporary</option>
+                        <option value="Approved">Approved</option>
+                      </select>
+                    </template>
+                    <template  v-else>
+                    <select disabled>
+                      <option value="NULL" selected disabled hidden>No Document</option>
                       <option value="Temporary">Temporary</option>
-                      <option value="Approve">Approve</option>
+                      <option value="Approved">Approved</option>
                     </select>
+                    </template>
                   </div>
                 </td>
                 <td class="pt-4">
                   <div class="icon-text mt-4">
-                    <span class="icon" :class="colorIcon">
+                    <span class="icon" :class= "Q_Point == null ? 'has-text-grey': colorIcon(Q_Point.status)" >
                       <i class="fas fa-circle fa-3x"></i>
                     </span>
                   </div>
@@ -266,6 +291,7 @@
                   </div>
                 </td>
               </tr>
+
             </tbody>
           </table>
         </div>
@@ -406,6 +432,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import router from "../router/index.js";
 export default {
   data() {
@@ -492,9 +519,28 @@ export default {
       this.file_PDF = null
       this.editpage = false;
     },
+    colorIcon (val) {
+      if (val == "Temporary") {
+        return "has-text-danger";
+      } else if (val == "Approved") {
+        return "has-text-success";
+      } else {
+        return "has-text-grey";
+      }
+    }
   },
-  //เดะตื่นมาทำ เชื่อมbackend
   created: async function () {
+    //axios data
+    await axios.get(`http://localhost:3000/${this.$route.params.project_id}/${this.$route.params.part_number}`)
+        .then( (response) => {
+          this.part = response.data.part[0]
+          this.Work_Inst = response.data.Work_Inst[0]
+          this.Inspection = response.data.Inspection[0]
+          this.Q_Point = response.data.Q_Point[0]
+        })
+        .catch((err) => {
+          console.log(err);
+    });
     //loader Page
     let afterloader = new Promise(function (myResolve) {
       setTimeout(() => {
@@ -502,21 +548,7 @@ export default {
       }, 1000);
     });
     this.pageloader = await afterloader;
-    //axios data
-  },
-  computed: {
-    colorIcon: function () {
-      if (this.document_part.status == null) {
-        return "has-text-grey";
-      } else if (this.document_part.status == "Temporary") {
-        return "has-text-danger";
-      } else if (this.document_part.status == "Approve") {
-        return "has-text-success";
-      } else {
-        return "";
-      }
-    },
-  },
+  }
 };
 </script>
 

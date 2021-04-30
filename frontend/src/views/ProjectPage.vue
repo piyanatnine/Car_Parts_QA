@@ -228,7 +228,7 @@
             </span>
             <div>
               <span class="has-text-danger is-size-4 has-text-weight-semibold">
-                If you reset project. All document in project <br> will be change status to 'Temporary'!!.
+                Resetting the project will results in changing <br> all the document status to 'Temporary'!!.
               </span>
             </div>
             <div class="mt-5">

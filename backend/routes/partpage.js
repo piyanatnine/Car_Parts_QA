@@ -29,4 +29,21 @@ router.get('/:project_id/:part_number', async function(req, res, next) {
     }
 })
 
+// route.get('/:project_id/:part_number/lastupdate', async function(req, res, next) {
+//     const conn = await pool.getConnection();
+//     // Begin transaction
+//     await conn.beginTransaction();
+//     let [rows, fields]= await conn.query("SELECT project_id, latest_update_time FROM project LEFT JOIN (SELECT project_id , MAX(date) latest_update_time FROM part JOIN (SELECT part_number,  MAX(IFNULL(approved_datetime, upload_datetime)) date FROM document GROUP BY part_number) AS latest_update  USING (part_number) GROUP BY project_id) AS latest_update_by_project USING (project_id) WHERE project_id= ?;",
+//     [req.params.project_id])
+//     try {
+//       await conn.commit();
+//       res.json({part, Work_Inst, Inspection, Q_Point});
+//     } catch (err) {
+//       await conn.rollback();
+//       return res.status(500).json(err);
+//     } finally {
+//       conn.release();
+//     }
+// })
+
 exports.router = router;

@@ -87,7 +87,7 @@ insert into part (part_number, part_name, part_drawing, project_id) values
 (00000026, 'wqtwgdsb', 'drawing_026.pdf', 5),
 (00000027, 'sdzhfgjhj', 'drawing_027.pdf', 9),
 (00000028, 'styryshs', 'drawing_028.pdf', 3),
-(00000029, 'ncfhh', 'drawing_029.pdf', 2),
+(00000029, 'ncfhh', 'drawing_029.pdf', 2);
 
 
 insert into document (upload_no, file_name, document_url, document_type, status, part_number, uploader, upload_datetime, approver, approved_datetime, preceding_doc) values

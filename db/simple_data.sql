@@ -59,16 +59,36 @@ insert into project_employee (project_id, employee_ID) values
 (10, 10101010);
 
 insert into part (part_number, part_name, part_drawing, project_id) values
-(00000001, 'tail_light', 'drawing_001.pdf', 10),
-(00000002, 'doors', 'drawing_002.pdf', 6),
+(00000001, 'tail_light_left', 'drawing_001.pdf', 10),
+(00000002, 'doors_1', 'drawing_002.pdf', 6),
 (00000003, 'hoods', 'drawing_003.pdf', 8),
-(00000004, 'mirrors', 'drawing_004.pdf', 1),
-(00000005, 'grilles', 'drawing_005.pdf', 2),
+(00000004, 'mirrors_left', 'drawing_004.pdf', 1),
+(00000005, 'grilles', 'drawing_005.pdf', 5),
 (00000006, 'bumpers', 'drawing_006.pdf', 5),
 (00000007, 'fenders', 'drawing_007.pdf', 4),
 (00000008, 'radiator_supports', 'drawing_008.pdf', 3),
 (00000009, 'wheels', 'drawing_009.pdf', 7),
-(00000010, 'air_filter', 'drawing_010.pdf', 9);
+(00000010, 'air_filter', 'drawing_010.pdf', 9),
+(00000011, 'tail_light_right', 'drawing_011.pdf', 10),
+(00000012, 'doors_2', 'drawing_012.pdf', 6),
+(00000013, 'doors_3', 'drawing_013.pdf', 6),
+(00000014, 'doors_4', 'drawing_014.pdf', 6),
+(00000015, 'mirrors_right', 'drawing_015.pdf', 1),
+(00000016, 'air_bags', 'drawing_016.pdf', 5),
+(00000017, 'batterry', 'drawing_017.pdf', 4),
+(00000018, 'afsdszff', 'drawing_018.pdf', 3),
+(00000019, 'asffasas', 'drawing_019.pdf', 7),
+(00000020, 'aafsfarr', 'drawing_020.pdf', 9),
+(00000021, 'erytuiut', 'drawing_021.pdf', 2),
+(00000022, 'ipojlkl', 'drawing_022.pdf', 1),
+(00000023, 'qewretytuyi', 'drawing_023.pdf', 3),
+(00000024, 'xzvhcjmv', 'drawing_024.pdf', 6),
+(00000025, 'dsgfhhdg', 'drawing_025.pdf', 7),
+(00000026, 'wqtwgdsb', 'drawing_026.pdf', 5),
+(00000027, 'sdzhfgjhj', 'drawing_027.pdf', 9),
+(00000028, 'styryshs', 'drawing_028.pdf', 3),
+(00000029, 'ncfhh', 'drawing_029.pdf', 2),
+
 
 insert into document (upload_no, file_name, document_url, document_type, status, part_number, uploader, upload_datetime, approver, approved_datetime, preceding_doc) values
 (20000001, 'file001', 'document_001', 'Inspection', 'Approved', 00000005, 77777777, '2021-01-23 13:31:12',22222222 , '2021-01-24 15:23:02', null), 

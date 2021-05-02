@@ -46,23 +46,26 @@ router.put('/:project_id', async function (req, res, next) {
 router.put('/:project_id/reset', async function (req, res, next) {
   const conn = await pool.getConnection();
   await conn.beginTransaction();
-  let [row, field] = await conn.query("select password from employee where employee_id = ?;", [req.body.employee_id])
+  let [row, field] = await conn.query("select password, Username from employee where employee_id = ?;", [req.body.employee_id])
   const employee_password = row[0].password
-  // if (await bcrypt.compare(employee_password, req.body.password_check)){
-  //   try {
-  //     console.log('OK');
-  //     res.json({pw1: employee_password, pw2: req.body.password_check})
-  //     await conn.commit();
+  const employee_username = row[0].Username
+  const confirm_password = await saltedMd5(req.body.password_check, employee_username, true);
+  console.log(confirm_password == employee_password)
+  if (confirm_password == employee_password){
+    try {
+      console.log('OK');
+      res.json({})
+      await conn.commit({pw: (confirm_password == employee_password)});
     
-  // } catch (err) {
-  //   await conn.rollback();
-  //   return res.status(500).json(err);
-  // } finally {
-  //   conn.release();
-  // }
-  // }else {
-  //   return res.status(403).json('password is not macth!');
-  // }
+  } catch (err) {
+    await conn.rollback();
+    return res.status(500).json(err);
+  } finally {
+    conn.release();
+  }
+  }else {
+    return res.status(403).json('password is not macth!');
+  }
 });
 
 router.get('/data/userPasswordHash', async function (req, res, next) {
@@ -71,8 +74,8 @@ router.get('/data/userPasswordHash', async function (req, res, next) {
   await conn.beginTransaction();
   let [row, field] = await conn.query("select * from employee")
   const project = []
-  let password_set = ['passwordAdmin', 'passwordQA', 'passwordUser', 'Adam578943256', 'pedkai123456', 'padthainaja'
-  , 'maha6534864651', 'IamSpiderman', 'som216516515', 'somsuayInwZa007']
+  let password_set = ['somsuayInwZa007', 'passwordAdmin', 'passwordQA', 'passwordUser', 'Adam578943256', 'pedkai123456', 'padthainaja'
+  , 'maha6534864651', 'IamSpiderman', 'som216516515']
   row.forEach((val, index) => {
     const psw = saltedMd5( password_set[index], val.Username)
     project.push({

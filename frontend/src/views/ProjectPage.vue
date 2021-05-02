@@ -3,8 +3,10 @@
     <nav class="navbar is-dark py-3 pr-5 is-fixed-top">
       <div class="navbar-brand ml-5" @click="loaderPage('/')">
         <div class="navbar-item pl-4">
-          <img class="image is-32x32" src="../assets/img/icon.png" />
-          <span class="px-4 textIcon"> This is Icon</span>
+          <span class="icon has-text-primary">
+            <i class="fas fa-car-side fa-spin fa-2x "></i>
+          </span>
+          <span class="pl-5 textIcon"> CarPart QA</span>
         </div>
       </div>
       <div class="navbar-start pl-5">
@@ -127,12 +129,12 @@
                       </span>
                     </td>
                     <td>
-                      <span class="icon mt-2" :class= "colorStatus(part.inspection_status)">
+                      <span class="icon mt-2" :class= "colorStatus(part.inspec_status)">
                         <i class="fas fa-circle fa-2x"></i>
                       </span>
                     </td>
                     <td>
-                      <span class="icon mt-2" :class= "colorStatus(part.qpoint_status)">
+                      <span class="icon mt-2" :class= "colorStatus(part.q_point_status)">
                         <i class="fas fa-circle fa-2x"></i>
                       </span>
                     </td>
@@ -285,13 +287,15 @@ export default {
       pageloader: "is-active",
       sidebar: false,
       editproject : false,
+      //reset
       resetproject: false,
       password: null, 
       user: {
-        employee_id: "AM-102",
+        Username: "Admin11111111",
+        employee_id: "11111111",
         first_name: "Jame",
-        last_name: "smite",
-        position: "Admin",
+        last_name: "Olara",
+        position: "Admin"
       },
       project: null,
       //projectEdit
@@ -336,28 +340,48 @@ export default {
     },
     editPageOpen() {
       this.editproject = true;
-      this.projectname = this.project.project_name;
+      this.projectname = this.project[0].project_name;
     },
-    editConfirm() {
+    async editConfirm() {
       this.editproject = false;
+      await axios.put(`http://localhost:3000/${this.$route.params.project_id}`, {project_name: this.projectname})
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((err) => {
+          console.log(err);
+      });
+      await this.getProjectData()
     },
     resetPageOpen() {
+      this.password = null;
       this.resetproject = true;
     },
-    resetConfirm() {
-      this.password = null;
+    async resetConfirm() {
       this.resetproject = false;
-    }
-  },
-  created: async function () {
+      await axios.put(`http://localhost:3000/${this.$route.params.project_id}/reset`, {employee_id: this.user.employee_id, password_check: this.password})
+        .then((response) => {
+          console.log(response.data)
+        })
+        .catch((err) => {
+          console.log(err);
+      });
+      await this.getProjectData()
+    },
+    async getProjectData() {
+      console.log('getProject')
       await axios.get(`http://localhost:3000/${this.$route.params.project_id}`)
         .then((response) => {
+          this.project = '';
           this.project = response.data;
         })
         .catch((err) => {
           console.log(err);
       });
-
+    }
+  },
+  created: async function () {
+    this.getProjectData()
     let afterloader = new Promise(function (myResolve) {
       setTimeout(() => {
         return myResolve("");

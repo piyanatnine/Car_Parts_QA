@@ -3,8 +3,10 @@
     <nav class="navbar is-dark py-3 pr-5 is-fixed-top">
       <div class="navbar-brand ml-5" @click="loaderPage('/')">
         <div class="navbar-item pl-4">
-          <img class="image is-32x32" src="../assets/img/icon.png" />
-          <span class="px-4 textIcon"> Car Part QA</span>
+          <span class="icon has-text-primary">
+            <i class="fas fa-car-side fa-spin fa-2x "></i>
+          </span>
+          <span class="pl-5 textIcon"> CarPart QA</span>
         </div>
       </div>
       <div class="navbar-start pl-5">

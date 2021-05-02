@@ -33,18 +33,18 @@ insert into project (project_id, project_name, customer_id) values
 (19, 'TestProjectS', 4),
 (20, 'TestProjectT', 4);
 
-
+-- saltedMd5(password, Username)
 insert into employee (employee_id, first_name, last_name, position, username ,password) values 
-(11111111, 'Jame', 'Olara', 'Admin', 'Admin11111111', '$2y$05$WzTVpKzVXEgAr4xc.rMqCeRj9SP1F.04R1C/Nc2Irda.KxQSTJvb2'), /*passwordAdmin*/
-(22222222, 'Quality', 'GodIT', 'QA', 'QA22222222','$2y$05$TQ/EJ/7gZlXJQo06wWR1o.OkFL45YK6uyWoLV1MTTUkYQrWh7iNRy'), /*passwordQA*/
-(33333333, 'Customer', 'is_A_God', 'User', 'User33333333','$2y$05$iBRt4lcZDw28noCpnYkzj.CMyDjMt2zcvDMt6jko1BmMBvS27rZhi'), /*passwordUser*/
-(44444444, 'Adam', 'maroonfive', 'QA', 'QAadam','$2y$12$YHdsGvTIULO4iuqa39iNUenUKw3jJwZBrQtk9HP79cva90NJElzji'), /*Adam578943256*/
-(55555555, 'pedkai', 'waijao', 'QA', 'QApedkai','$2y$12$/3oyYUrUm03sj4INThdVD.jP7TwufOL/HPDvSqpEH6g/3G8fHs4jS'), /*pedkai123456*/
-(66666666, 'padthai', 'maisaipak', 'User', 'UserPadthai','$2y$12$r9h2uwucF2.BhfT6L1UPU.zjYEvNkSwwag9JNexXl67U1ZVLxi8ha'), /*padthainaja*/
-(77777777, 'somying', 'mahakai', 'User', 'UserSomying','$2y$12$CbSCvKNJNH4Zh9pzJ1mrruLDDYpnvYdp.1XMXY4SEYA260Qpj1L9G'), /*maha6534864651*/
-(88888888, 'peter', 'parker', 'User', 'UserPeter','$2y$12$A9S/ewoGpDtm2cods117YuonNeel0SoQ56AdidwfLdPNK6gwhwm9K'), /*IamSpiderman*/
-(99999999, 'sommai', 'kloyjai', 'Admin', 'AdminSommai','$2y$12$/WSedgjVsscZgeLIW6DFe.dOC88Hk4gTsDVuY1TPP1/P1SKc8aJAO'), /*som216516515*/
-(10101010, 'somsuay', 'naja', 'Admin', 'AdminSomsuay','$2y$12$2rTO7Ck5WW5JNbejPDqS0usvfYcmRNOtpmvZPaCsS0iNyIE41QCRi'); /*somsuayInwZa007*/
+(11111111, 'Jame', 'Olara', 'Admin', 'Admin11111111', 'f239e4400a942a4cd0139574fe84f3ac'), /*passwordAdmin*/
+(22222222, 'Quality', 'GodIT', 'QA', 'QA22222222','c2eb1e8d5d696f9a6bee768f03c57b2f'), /*passwordQA*/
+(33333333, 'Customer', 'is_A_God', 'User', 'User33333333','bca9665fca7bbf74d17d9607ce13fda6'), /*passwordUser*/
+(44444444, 'Adam', 'maroonfive', 'QA', 'QA44444444','d196f73953ac937c48e7007defe1f23b'), /*Adam578943256*/
+(55555555, 'pedkai', 'waijao', 'QA', 'QA88888888','a83351315ee0d2985fa8065de94903fa'), /*pedkai123456*/
+(66666666, 'padthai', 'maisaipak', 'User', 'User66666666','358ee8193ef61555ec9a5ac358303e64'), /*padthainaja*/
+(77777777, 'somying', 'mahakai', 'User', 'User77777777','b3cc7f2f0909f821fb59ae4ee80a6326'), /*maha6534864651*/
+(88888888, 'peter', 'parker', 'User', 'User88888888','606fd0fd0c6183b1f2659c8f4ba6f87f'), /*IamSpiderman*/
+(99999999, 'sommai', 'kloyjai', 'Admin', 'Admin99999999','914be94dba4f5cf7540be24ccaeb2ddf'), /*som216516515*/
+(10101010, 'somsuay', 'naja', 'Admin', 'Admin10101010','d3984d3c985bee43f7f5204c7a3b797e"'); /*somsuayInwZa007*/
 
 insert into project_employee (project_id, employee_ID) values 
 (1, 11111111),

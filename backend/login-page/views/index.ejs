@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="
+        background-color: bisque;
+        height: 150px;
+        width: 200px;
+        position: relative;
+        top: 150px;
+        left: 350px;
+    ">
+        <form action="/user" method="POST">
+            <label for="">Username</label><br>
+            <input type="text" name="username" value=""><br>
+            <label for="">password</label><br>
+            <input type="text" name="password" value=""><br>
+            <input type="submit" value="login">
+        </form>
+        <!-- response message: '<%= response_msg %>'<br>
+        username in database(Your input for Username is '<%= username_input %>')
+        <%= matched_username_position %>
+        <ul>
+            <% user.forEach(function(data, i, arr){ %>
+            <li><%= data.Username %></li>
+            <% }); %>
+        </ul>
+        password in database(Your input for Password is '<%= password_input %>')
+        <%= matched_password_position %>
+        <ul>
+            <% user.forEach(function(data, i, arr){ %>
+            <li><%= data.password %></li>
+            <% }); %>
+        </ul> -->
+    </div>
+</body>
+</html>

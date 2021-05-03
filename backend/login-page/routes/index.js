@@ -26,7 +26,7 @@ router.get(
     }
 )
 router.post(
-    '/user', async function (req, res, next) {
+    '/', async function (req, res, next) {
         try {
             query_msg = "";
             query_msg += "SELECT * ";
@@ -72,7 +72,8 @@ router.post(
             }
             if ((username_position != -1) && (password_position != -1))
             {
-                res.send('you\'re logged in')
+                res.render('user', { message: req.body.username })
+                // res.send(req.body.username)
             }
             return res.render('index', {
                 user: rows,

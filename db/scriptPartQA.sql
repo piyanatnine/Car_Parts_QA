@@ -21,7 +21,7 @@ create table `employee`
     first_name varchar(100) not null,
     last_name varchar(100) not null,
     position ENUM('Admin', 'User', 'QA') not null,
-    Username Varchar(30) not null,
+    Username varchar(30) not null,
     password varchar(255) not null
 );
 

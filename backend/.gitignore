@@ -3,6 +3,9 @@ node_modules
 /dist
 /node_modules
 
+
+#PDF
+/static/uploads
 # sql password
 /config.js
 

@@ -5,7 +5,7 @@
         <a href="/">
         <div class="navbar-item pl-4">
           <span class="icon has-text-primary">
-            <i class="fas fa-car-side fa-spin fa-2x "></i>
+            <i class="fas fa-cog fa-spin fa-3x "></i>
           </span>
           <span class="pl-5 textIcon"> CarPart QA</span>
         </div>

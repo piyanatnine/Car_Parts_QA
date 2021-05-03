@@ -4,7 +4,7 @@
       <div class="navbar-brand ml-5" @click="loaderPage('/')">
         <div class="navbar-item pl-4">
           <span class="icon has-text-primary">
-            <i class="fas fa-car-side fa-spin fa-2x "></i>
+            <i class="fas fa-cog fa-spin fa-3x"></i>
           </span>
           <span class="pl-5 textIcon"> CarPart QA</span>
         </div>
@@ -68,302 +68,398 @@
       <div class="vl"></div>
     </aside>
     <template v-if="part != null">
-    <section class="section main-content">
-      <div class="container is-fluid">
-        <nav class="breadcrumb is-centered is-medium" aria-label="breadcrumbs">
-          <ul>
-            <li @click="loaderPage('/')"><a> HOMEPAGE </a></li>
-            <li @click="loaderPage(`/${part.project_id}`)">
-              <a>{{ zeroPad(part.project_id) }} </a>
-            </li>
-            <li class="is-active" aria-current="page">
-              <a>{{ zeroPad(part.part_number) }}</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <div class="container is-fluid my-5">
-        <div class="level">
-          <div class="level-left">
-            <div class="level-item">
-              <p class="title has-text-weight-bold" style="font-size: 5vw">
-                {{ part.part_name }}
-              </p>
+      <section class="section main-content">
+        <div class="container is-fluid">
+          <nav
+            class="breadcrumb is-centered is-medium"
+            aria-label="breadcrumbs"
+          >
+            <ul>
+              <li @click="loaderPage('/')"><a> HOMEPAGE </a></li>
+              <li @click="loaderPage(`/${part.project_id}`)">
+                <a>{{ zeroPad(part.project_id) }} </a>
+              </li>
+              <li class="is-active" aria-current="page">
+                <a>{{ zeroPad(part.part_number) }}</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="container is-fluid my-5">
+          <div class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <p class="title has-text-weight-bold" style="font-size: 5vw">
+                  {{ part.part_name }}
+                </p>
+              </div>
+              <div class="level-item mx-5 pt-3">
+                <p
+                  class="subtitle has-text-weight-medium"
+                  style="font-size: 2vw"
+                >
+                  Part Number: {{ zeroPad(part.part_number) }}
+                </p>
+              </div>
             </div>
-            <div class="level-item mx-5 pt-3">
-              <p class="subtitle has-text-weight-medium" style="font-size: 2vw">
-                Part Number: {{ zeroPad(part.part_number) }}
-              </p>
-            </div>
-          </div>
-          <div class="level-right mr-5">
-            <div class="level-item" v-if="user.position == 'Admin'">
-              <div class="button is-danger" @click="editPageOpen()">
-                <span class="icon">
-                  <i class="fas fa-pen"></i>
-                </span>
-                <span> Edit Part</span>
+            <div class="level-right mr-5">
+              <div class="level-item" v-if="user.position == 'Admin'">
+                <div class="button is-danger" @click="editPageOpen()">
+                  <span class="icon">
+                    <i class="fas fa-pen"></i>
+                  </span>
+                  <span> Edit Part</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="container pl-5">
-          <div class="mx-2">
-            <span class="is-size-4">
-              Project ID: {{ zeroPad(part.project_id) }}
-            </span>
-          </div>
-          <div class="mx-2 my-1">
-            <span class="is-size-4"> Last Update: ------------- </span>
-          </div>
-          <div class="mx-2 my-5">
-            <span class="is-size-4">
-              Drawing of Part:
-              <a :href= "part.part_drawing" download>
-                <i class="fas fa-link ml-2"></i>
-                Download PDF File
-              </a>
-            </span>
-          </div>
-        </div>
-        <div class="container" style="margin-top: 12vh">
-          <table class="table is-fullwidth">
-            <thead class="is-size-4 has-text-centered">
-              <th>Document</th>
-              <th>Last File Upload</th>
-              <th>History</th>
-              <th>Status</th>
-              <th></th>
-              <th style="width: 5"></th>
-            </thead>
-            <tbody>
-              <tr class="is-size-5 has-text-centered" style="line-height: 10vh">
-                <td>Work_Inst</td>
-                <td>
-                  <span>
-                    <a download>
-                      <i class="fas fa-link mx-2"></i>
-                      {{ Work_Inst == null ? 'Document_URL': Work_Inst.file_name }}
-                    </a>
-                  </span>
-                </td>
-                <td>
-                  <span class="icon mt-2">
-                    <i class="fas fa-clock fa-2x"></i>
-                  </span>
-                </td>
-                <td>
-                  <div class="select is-primary mt-3">
-                    <template  v-if = "Work_Inst != null">
-                      <select v-model="Work_Inst.status">
-                        <option value="NULL" selected disabled hidden>No Document</option>
-                        <option value="Temporary">Temporary</option>
-                        <option value="Approved">Approved</option>
-                      </select>
-                    </template>
-                    <template  v-else>
-                    <select disabled>
-                      <option value="NULL" selected disabled hidden>No Document</option>
-                      <option value="Temporary">Temporary</option>
-                      <option value="Approved">Approved</option>
-                    </select>
-                    </template>
-                  </div>
-                </td>
-                <td class="pt-4">
-                  <div class="icon-text mt-4">
-                    <span class="icon" :class= "Work_Inst == null ? 'has-text-grey': colorIcon(Work_Inst.status)">
-                      <i class="fas fa-circle fa-3x"></i>
-                    </span>
-                  </div>
-                </td>
-                <td>
-                  <div
-                    class="button is-link is-fullwidth mt-4"
-                    @click="upload('Work_Inst')"
-                  >
-                    <span class="icon">
-                      <i class="fas fa-pen"></i>
-                    </span>
-                    <span> Upload </span>
-                  </div>
-                </td>
-              </tr>
-              <tr class="is-size-5 has-text-centered" style="line-height: 10vh">
-                <td>Inspection</td>
-                <td>
-                  <span>
-                    <a download>
-                      <i class="fas fa-link mx-2"></i>
-                      {{ Inspection == null ? 'Document_URL': Inspection.file_name }}
-                    </a>
-                  </span>
-                </td>
-                <td>
-                  <span class="icon mt-2">
-                    <i class="fas fa-clock fa-2x"></i>
-                  </span>
-                </td>
-                <td>
-                  <div class="select is-primary mt-3">
-                    <template  v-if = "Inspection != null">
-                      <select v-model="Inspection.status">
-                        <option value="NULL" selected disabled hidden>No Document</option>
-                        <option value="Temporary">Temporary</option>
-                        <option value="Approved">Approved</option>
-                      </select>
-                    </template>
-                    <template  v-else>
-                    <select disabled>
-                      <option value="NULL" selected disabled hidden>No Document</option>
-                      <option value="Temporary">Temporary</option>
-                      <option value="Approved">Approved</option>
-                    </select>
-                    </template>
-                  </div>
-                </td>
-                <td class="pt-4">
-                  <div class="icon-text mt-4">
-                    <span class="icon" :class= "Inspection == null ? 'has-text-grey': colorIcon(Inspection.status)" >
-                      <i class="fas fa-circle fa-3x"></i>
-                    </span>
-                  </div>
-                </td>
-                <td>
-                  <div
-                    class="button is-link is-fullwidth mt-4"
-                    @click="upload('Inspection')"
-                  >
-                    <span class="icon">
-                      <i class="fas fa-pen"></i>
-                    </span>
-                    <span> Upload </span>
-                  </div>
-                </td>
-              </tr>
-              <tr class="is-size-5 has-text-centered" style="line-height: 10vh">
-                <td>Q-Point</td>
-                <td>
-                  <span>
-                    <a download>
-                      <i class="fas fa-link mx-2"></i>
-                      {{ Q_Point == null ? 'Document_URL': Q_Point.file_name }}
-                    </a>
-                  </span>
-                </td>
-                <td>
-                  <span class="icon mt-2">
-                    <i class="fas fa-clock fa-2x"></i>
-                  </span>
-                </td>
-                <td>
-                  <div class="select is-primary mt-3">
-                    <template  v-if = "Q_Point != null">
-                      <select v-model="Q_Point.status">
-                        <option value="NULL" selected disabled hidden>No Document</option>
-                        <option value="Temporary">Temporary</option>
-                        <option value="Approved">Approved</option>
-                      </select>
-                    </template>
-                    <template  v-else>
-                    <select disabled>
-                      <option value="NULL" selected disabled hidden>No Document</option>
-                      <option value="Temporary">Temporary</option>
-                      <option value="Approved">Approved</option>
-                    </select>
-                    </template>
-                  </div>
-                </td>
-                <td class="pt-4">
-                  <div class="icon-text mt-4">
-                    <span class="icon" :class= "Q_Point == null ? 'has-text-grey': colorIcon(Q_Point.status)" >
-                      <i class="fas fa-circle fa-3x"></i>
-                    </span>
-                  </div>
-                </td>
-                <td>
-                  <div
-                    class="button is-link is-fullwidth mt-4"
-                    @click="upload('Q_Point')"
-                  >
-                    <span class="icon">
-                      <i class="fas fa-pen"></i>
-                    </span>
-                    <span> Upload </span>
-                  </div>
-                </td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-    <!-- Upload Document -->
-    <div class="modal" :class="{ 'is-active': upload_page }">
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">UPLOAD DOCUMENT {{ type }}</p>
-          <button
-            class="delete"
-            aria-label="close"
-            @click="upload_page = false"
-          ></button>
-        </header>
-        <section class="modal-card-body">
-          <!-- Content ... -->
-          <div class="form">
-            <div class="file has-name is-fullwidth">
-              <label class="file-label">
-                <input
-                  class="file-input"
-                  type="file"
-                  name="resume"
-                  accept=".pdf"
-                  @change="previewFiles"
-                />
-                <span class="file-cta">
-                  <span class="file-icon">
-                    <i class="fas fa-upload"></i>
-                  </span>
-                  <span class="file-label"> Choose a file… </span>
-                </span>
-                <span class="file-name">
-                  {{ file_name }}
-                </span>
-              </label>
+          <div class="container pl-5">
+            <div class="mx-2">
+              <span class="is-size-4">
+                Project ID: {{ zeroPad(part.project_id) }}
+              </span>
+            </div>
+            <div class="mx-2 my-1">
+              <span class="is-size-4"> Last Update: {{ lastupdate }} </span>
+            </div>
+            <div class="mx-2 my-5">
+              <span class="is-size-4">
+                Drawing of Part:
+                <a :href="path(part.part_drawing)" target="_blank" download>
+                  <i class="fas fa-link ml-2"></i>
+                  Download PDF File
+                </a>
+              </span>
             </div>
           </div>
-        </section>
-        <footer class="modal-card-foot">
-          <nav class="level">
+          <div class="container" style="margin-top: 12vh">
+            <table class="table is-fullwidth">
+              <thead class="is-size-4 has-text-centered">
+                <th>Document</th>
+                <th>Last File Upload</th>
+                <th>History</th>
+                <th>Status</th>
+                <th></th>
+                <th style="width: 5"></th>
+              </thead>
+              <tbody>
+                <tr
+                  class="is-size-5 has-text-centered"
+                  style="line-height: 10vh"
+                >
+                  <td>Work_Inst</td>
+                  <td>
+                    <span>
+                      <a
+                        :href="path(Q_Point.Document_URL)"
+                        target="_blank"
+                        download
+                      >
+                        <span class="textname">
+                          <i class="fas fa-link mx-2"></i>
+                          {{
+                            Work_Inst == null
+                              ? "Document_URL"
+                              : Work_Inst.file_name
+                          }}
+                        </span>
+                      </a>
+                    </span>
+                  </td>
+                  <td>
+                    <span
+                      class="icon mt-2"
+                      @click="Work_Inst != null ? logHistory(Work_Inst.document_type): ''"
+                    >
+                      <i class="fas fa-clock fa-2x"></i>
+                    </span>
+                  </td>
+                  <td>
+                    <div class="select is-primary mt-3">
+                      <template v-if="Work_Inst != null">
+                        <select
+                          v-model="Work_Inst.status"
+                          @change="changeStatus('Work_Inst')"
+                          :disabled="Work_Inst.status == 'Approved'"
+                        >
+                          <option value="NULL" selected disabled hidden>
+                            No Document
+                          </option>
+                          <option value="Temporary">Temporary</option>
+                          <option value="Approved">Approved</option>
+                        </select>
+                      </template>
+                      <template v-else>
+                        <select disabled>
+                          <option value="NULL" selected disabled hidden>
+                            No Document
+                          </option>
+                          <option value="Temporary">Temporary</option>
+                          <option value="Approved">Approved</option>
+                        </select>
+                      </template>
+                    </div>
+                  </td>
+                  <td class="pt-4">
+                    <div class="icon-text mt-4">
+                      <span
+                        class="icon"
+                        :class="
+                          Work_Inst == null
+                            ? 'has-text-grey'
+                            : colorIcon(Work_Inst.status)
+                        "
+                      >
+                        <i class="fas fa-circle fa-3x"></i>
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <div
+                      class="button is-link is-fullwidth mt-4"
+                      @click="upload('Work_Inst')"
+                    >
+                      <span class="icon">
+                        <i class="fas fa-pen"></i>
+                      </span>
+                      <span> Upload </span>
+                    </div>
+                  </td>
+                </tr>
+                <tr
+                  class="is-size-5 has-text-centered"
+                  style="line-height: 10vh"
+                >
+                  <td>Inspection</td>
+                  <td>
+                    <span>
+                      <a
+                        :href="path(Q_Point.Document_URL)"
+                        target="_blank"
+                        download
+                      >
+                        <span class="textname">
+                          <i class="fas fa-link mx-2"></i>
+                          {{
+                            Inspection == null
+                              ? "Document_URL"
+                              : Inspection.file_name
+                          }}
+                        </span>
+                      </a>
+                    </span>
+                  </td>
+                  <td>
+                    <span
+                      class="icon mt-2"
+                      @click="Inspection != null ? logHistory(Inspection.document_type) : ''"
+                    >
+                      <i class="fas fa-clock fa-2x"></i>
+                    </span>
+                  </td>
+                  <td>
+                    <div class="select is-primary mt-3">
+                      <template v-if="Inspection != null">
+                        <select
+                          v-model="Inspection.status"
+                          @change="changeStatus('Inspection')"
+                          :disabled="Inspection.status == 'Approved'"
+                        >
+                          <option value="NULL" selected disabled hidden>
+                            No Document
+                          </option>
+                          <option value="Temporary">Temporary</option>
+                          <option value="Approved">Approved</option>
+                        </select>
+                      </template>
+                      <template v-else>
+                        <select disabled>
+                          <option value="NULL" selected disabled hidden>
+                            No Document
+                          </option>
+                          <option value="Temporary">Temporary</option>
+                          <option value="Approved">Approved</option>
+                        </select>
+                      </template>
+                    </div>
+                  </td>
+                  <td class="pt-4">
+                    <div class="icon-text mt-4">
+                      <span
+                        class="icon"
+                        :class="
+                          Inspection == null
+                            ? 'has-text-grey'
+                            : colorIcon(Inspection.status)
+                        "
+                      >
+                        <i class="fas fa-circle fa-3x"></i>
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <div
+                      class="button is-link is-fullwidth mt-4"
+                      @click="upload('Inspection')"
+                    >
+                      <span class="icon">
+                        <i class="fas fa-pen"></i>
+                      </span>
+                      <span> Upload </span>
+                    </div>
+                  </td>
+                </tr>
+                <tr
+                  class="is-size-5 has-text-centered"
+                  style="line-height: 10vh"
+                >
+                  <td>Q-Point</td>
+                  <td>
+                    <span>
+                      <a
+                        :href="path(Q_Point.Document_URL)"
+                        target="_blank"
+                        download
+                      >
+                        <span class="textname">
+                          <i class="fas fa-link mx-2"></i>
+                          {{
+                            Q_Point == null ? "Document_URL" : Q_Point.file_name
+                          }}
+                        </span>
+                      </a>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="icon mt-2" @click="Q_Point != null ? logHistory(Q_Point.document_type):''">
+                      <i class="fas fa-clock fa-2x"></i>
+                    </span>
+                  </td>
+                  <td>
+                    <div class="select is-primary mt-3">
+                      <template v-if="Q_Point != null">
+                        <select
+                          v-model="Q_Point.status"
+                          @change="changeStatus('Q_Point')"
+                          :disabled="Q_Point.status == 'Approved'"
+                        >
+                          <option value="NULL" selected disabled hidden>
+                            No Document
+                          </option>
+                          <option value="Temporary">Temporary</option>
+                          <option value="Approved">Approved</option>
+                        </select>
+                      </template>
+                      <template v-else>
+                        <select disabled>
+                          <option value="NULL" selected disabled hidden>
+                            No Document
+                          </option>
+                          <option value="Temporary">Temporary</option>
+                          <option value="Approved">Approved</option>
+                        </select>
+                      </template>
+                    </div>
+                  </td>
+                  <td class="pt-4">
+                    <div class="icon-text mt-4">
+                      <span
+                        class="icon"
+                        :class="
+                          Q_Point == null
+                            ? 'has-text-grey'
+                            : colorIcon(Q_Point.status)
+                        "
+                      >
+                        <i class="fas fa-circle fa-3x"></i>
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <div
+                      class="button is-link is-fullwidth mt-4"
+                      @click="upload('Q_Point')"
+                    >
+                      <span class="icon">
+                        <i class="fas fa-pen"></i>
+                      </span>
+                      <span> Upload </span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+      <!-- Upload Document -->
+      <div class="modal" :class="{ 'is-active': upload_page }">
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">UPLOAD DOCUMENT {{ type }}</p>
             <button
-              class="level-item has-text-centered button"
+              class="delete"
+              aria-label="close"
               @click="upload_page = false"
-            >
-              Cancel
-            </button>
-            <button class="level-item button is-success" @click="upload_summit">
-              Submit
-            </button>
-          </nav>
-        </footer>
+            ></button>
+          </header>
+          <section class="modal-card-body">
+            <!-- Content -->
+            <div class="form">
+              <div class="file has-name is-fullwidth">
+                <label class="file-label">
+                  <input
+                    class="file-input"
+                    type="file"
+                    name="resume"
+                    accept=".pdf"
+                    @change="previewFiles"
+                  />
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label"> Choose a file… </span>
+                  </span>
+                  <span class="file-name">
+                    {{ file_name }}
+                  </span>
+                </label>
+              </div>
+            </div>
+          </section>
+          <footer class="modal-card-foot">
+            <nav class="level">
+              <button
+                class="level-item has-text-centered button"
+                @click="upload_page = false"
+              >
+                Cancel
+              </button>
+              <button
+                class="level-item button is-success"
+                @click="upload_summit"
+              >
+                Submit
+              </button>
+            </nav>
+          </footer>
+        </div>
       </div>
-    </div>
 
-    <!-- Edit -->
-    <div class="modal" :class="{ 'is-active': editpage }">
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Edit Part</p>
-          <button
-            class="delete"
-            aria-label="close"
-            @click="editpage = false"
-          ></button>
-        </header>
-        <section class="modal-card-body has-background-white-bis">
-          <!-- Content ... -->
+      <!-- Edit -->
+      <div class="modal" :class="{ 'is-active': editpage }">
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Edit Part</p>
+            <button
+              class="delete"
+              aria-label="close"
+              @click="editpage = false"
+            ></button>
+          </header>
+          <section class="modal-card-body has-background-white-bis">
+            <!-- Content ... -->
             <div class="field is-horizontal">
               <div class="field-label is-normal">
                 <label class="label">Part Name :</label>
@@ -410,22 +506,100 @@
                 </div>
               </div>
             </div>
-        </section>
-        <footer class="modal-card-foot">
-          <nav class="level">
+          </section>
+          <footer class="modal-card-foot">
+            <nav class="level">
+              <button
+                class="level-item has-text-centered button"
+                @click="editpage = false"
+              >
+                Cancel
+              </button>
+              <button class="level-item button is-success" @click="editConfirm">
+                Submit
+              </button>
+            </nav>
+          </footer>
+        </div>
+      </div>
+      <!-- confirm ChangeStatus -->
+      <div class="modal" :class="{ 'is-active': confirmPage }">
+        <div class="modal-card" style="border: grey 1px solid">
+          <header class="modal-card-head">
+            <p class="modal-card-title has-text-weight-semibold">
+              ChangeStatus
+            </p>
+            <button
+              class="delete"
+              aria-label="close"
+              @click="confirmPage = false"
+            ></button>
+          </header>
+          <section class="modal-card-body has-background-white-bis">
+            <!-- Content ... -->
+            <div class="has-text-centered">
+              <span class="title"> Change Status Complete!</span>
+            </div>
+          </section>
+          <button class="modal-close is-large" aria-label="close"></button>
+          <footer class="modal-card-foot">
             <button
               class="level-item has-text-centered button"
-              @click="editpage = false"
+              @click="confirmPage = false"
             >
-              Cancel
+              OK
             </button>
-            <button class="level-item button is-success" @click="editConfirm">
-              Submit
-            </button>
-          </nav>
-        </footer>
+          </footer>
+        </div>
       </div>
-    </div>
+      <!-- Log History -->
+      <div class="modal" :class="{ 'is-active': logOpen }" style="weight: 80%">
+        <div
+          class="modal-message"
+          style="width: 60%; overflow: hidden"
+        >
+          <article class="message is-link">
+            <div class="message-header">
+              <p>Log History</p>
+              <button
+                class="delete"
+                aria-label="delete"
+                @click="logOpen = false"
+              ></button>
+            </div>
+            <div class="message-body">
+              <div id="table-wrapper">
+                <div id="table-scroll">
+                  <table class="table is-fullwidth">
+                    <thead>
+                      <tr>
+                        <th style="width: 25%">Upload No.</th>
+                        <th style="width: 25%">File Name</th>
+                        <th style="width: 25%">Upload Time</th>
+                        <th style="width: 15%">Upload By</th>
+                        <th style="width: 10%">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <template v-if= "log_history != null">
+                        <template v-for= "(log, index) in log_history">
+                            <tr :key="`${log.upload_no}-${index}`">
+                              <td> {{ log.upload_no }} </td>
+                              <td> {{ log.file_name }} </td>
+                              <td> {{ log.upload_datetime.slice(0, 10) }} </td>
+                              <td> {{ log.uploader }} </td>
+                              <td> {{ log.status }} </td>
+                            </tr>
+                        </template>
+                      </template>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
     </template>
     <div :class="pageloader" class="pageloader is-bottom-to-top is-dark">
       <span class="title">Pageloader</span>
@@ -443,8 +617,10 @@ export default {
       pageloader: "is-active",
       sidebar: false,
       part: null,
+      lastupdate: null,
+
       user: {
-        employee_id: "AM-102",
+        employee_id: "44444444",
         first_name: "Jame",
         last_name: "smite",
         position: "Admin",
@@ -455,12 +631,17 @@ export default {
       //uploadpage
       upload_page: false,
       type: null,
-      file_name: null,
       file_PDF: null,
       pev_number: null,
       //editpage
       editpage: false,
       partname: null,
+      file_name: null,
+      //confirmpage
+      confirmPage: false,
+      //logHistory
+      logOpen: false,
+      log_history: null,
     };
   },
   methods: {
@@ -484,44 +665,111 @@ export default {
         console.log(err);
       }
     },
+    async logHistory(type) {
+      await axios.get(`http://localhost:3000/${this.$route.params.project_id}/${this.$route.params.part_number}/history/${type}`)
+        .then( (response) => {
+          this.log_history = response.data
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.logOpen = true;
+    },
+    async getPartData() {
+      await axios
+        .get(
+          `http://localhost:3000/${this.$route.params.project_id}/${this.$route.params.part_number}`
+        )
+        .then((response) => {
+          this.part = response.data.part[0];
+          this.Work_Inst = response.data.Work_Inst[0];
+          this.Inspection = response.data.Inspection[0];
+          this.Q_Point = response.data.Q_Point[0];
+          this.lastupdate = response.data.lastupdate[0].latest_update
+            .slice(0, 19)
+            .replace("T", " ");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     zeroPad(num) {
       return num.toString().padStart(8, "0");
     },
     upload(type) {
+      this.file_name = null;
       this.upload_page = true;
       this.type = type;
-      this.pev_number = this.document_part.upload_no;
+      if (type == "Work_Inst" && this.Work_Inst != null) {
+        this.pev_number = this.Work_Inst.upload_no;
+      }
+      if (type == "Inspection" && this.Inspection != null) {
+        this.pev_number = this.Inspection.upload_no;
+      }
+      if (type == "Q_Point" && this.Q_Point != null) {
+        this.pev_number = this.Q_Point.upload_no;
+      }
     },
     previewFiles(file) {
       this.file_PDF = file.target.files[0];
-      console.info(this.file_PDF);
       this.file_name = file.target.files[0].name;
     },
-    upload_summit() {
-      var data = {
-        File_Name: this.file_name,
-        Document_URL: ".../a/a" + this.file_name,
-        Document_Type: this.type,
-        Status: "Temporary",
-        Part_Number: this.part.part_number,
-        Uploader: this.user.employee_id,
-      };
-      this.file_name = null
-      this.file_PDF = null
-      console.log(data);
+    async upload_summit() {
+      let formData = new FormData();
+      formData.append("file", this.file_PDF);
+      formData.append("document_type", this.type);
+      formData.append("pev_doc", this.pev_number);
+      formData.append("uploader", this.user.employee_id);
+
+      await axios
+        .post(
+          `http://localhost:3000/${this.$route.params.project_id}/${this.$route.params.part_number}`,
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        )
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.pev_number = null;
       this.upload_page = false;
+      await this.getPartData();
     },
     editPageOpen() {
       this.editpage = true;
       this.partname = this.part.part_name;
+      this.file_name = null;
     },
-    editConfirm() {
-      //axios
-      this.file_name = null
-      this.file_PDF = null
+    async editConfirm() {
       this.editpage = false;
+      let formData = new FormData();
+      formData.append("file", this.file_PDF);
+      formData.append("name", this.partname);
+
+      //axios
+      await axios
+        .put(
+          `http://localhost:3000/${this.$route.params.project_id}/${this.$route.params.part_number}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      await this.getPartData();
+      this.file_name = null;
+      this.file_PDF = null;
     },
-    colorIcon (val) {
+    colorIcon(val) {
       if (val == "Temporary") {
         return "has-text-danger";
       } else if (val == "Approved") {
@@ -529,20 +777,47 @@ export default {
       } else {
         return "has-text-grey";
       }
-    }
-  },
-  created: async function () {
-    //axios data
-    await axios.get(`http://localhost:3000/${this.$route.params.project_id}/${this.$route.params.part_number}`)
-        .then( (response) => {
-          this.part = response.data.part[0]
-          this.Work_Inst = response.data.Work_Inst[0]
-          this.Inspection = response.data.Inspection[0]
-          this.Q_Point = response.data.Q_Point[0]
+    },
+    async changeStatus(doc) {
+      this.confirmPage = true;
+      var upload_no = "";
+      if (doc == "Work_Inst") {
+        upload_no = this.Work_Inst.upload_no;
+      }
+      if (doc == "Inspection") {
+        upload_no = this.Inspection.upload_no;
+      }
+      if (doc == "Q_Point") {
+        upload_no = this.Q_Point.upload_no;
+      }
+      // console.log(upload_no);
+
+      //axios
+      await axios
+        .put(
+          `http://localhost:3000/${this.$route.params.project_id}/${this.$route.params.part_number}/status`,
+          { upload_no: upload_no, user_id: this.user.employee_id }
+        )
+        .then((response) => {
+          console.log(response.data);
         })
         .catch((err) => {
           console.log(err);
-    });
+        });
+      await this.getPartData();
+    },
+    path(txt) {
+      if (txt) {
+        return "http://localhost:3000/" + txt;
+      } else {
+        return "";
+      }
+    },
+  },
+  created: async function () {
+    console.log(this.lastupdate != null)
+    //axios data
+    this.getPartData();
     //loader Page
     let afterloader = new Promise(function (myResolve) {
       setTimeout(() => {
@@ -550,12 +825,19 @@ export default {
       }, 1000);
     });
     this.pageloader = await afterloader;
-  }
+  },
 };
 </script>
 
 <style>
 section .main-content {
   margin-top: 6vh;
+}
+.textname {
+  display: inline-block;
+  width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>

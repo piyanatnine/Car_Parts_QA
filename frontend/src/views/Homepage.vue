@@ -3,12 +3,12 @@
     <nav class="navbar is-dark py-3 pr-5 is-fixed-top">
       <div class="navbar-brand ml-5">
         <a href="/">
-        <div class="navbar-item pl-4">
-          <span class="icon has-text-primary">
-            <i class="fas fa-cog fa-spin fa-3x "></i>
-          </span>
-          <span class="pl-5 textIcon"> CarPart QA</span>
-        </div>
+          <div class="navbar-item pl-4">
+            <span class="icon has-text-primary">
+              <i class="fas fa-cog fa-spin fa-3x"></i>
+            </span>
+            <span class="pl-5 textIcon"> CarPart QA</span>
+          </div>
         </a>
       </div>
       <div class="navbar-start pl-5">
@@ -52,10 +52,23 @@
               <span class="icon pt-1">
                 <i class="fas fa-user-circle"></i>
               </span>
-              <span> UserName </span>
-              <span class="icon pt-1">
-                <i class="fas fa-angle-down"></i>
-              </span>
+              <span> {{ user.first_name }}</span>
+              <div class="dropdown is-right" :class= "dropdown ? 'is-active' : ''">
+                <div class="dropdown-trigger">
+                  <button style= "background-color: Transparent;outline:none;border: none;overflow: hidden;">
+                    <span class="icon" style="color: white;" @click= "dropdown = !dropdown">
+                      <i class="fas fa-angle-down is-2x" aria-hidden="true"></i>
+                    </span>
+                  </button>
+                </div>
+                <div class="dropdown-menu">
+                  <div class="dropdown-content">
+                    <a class="dropdown-item" @click="loaderPage('/'+user.employee_id)"> userpage </a>
+                    <hr class="dropdown-divider" />
+                    <a class="dropdown-item" @click="logout()"> Logout </a>
+                  </div>
+                </div>
+              </div>
             </span>
           </div>
         </template>
@@ -96,100 +109,112 @@
       <div class="container">
         <div class="columns">
           <template v-if="listItem">
-            <div class="column is-9 is-offset-2">
-              <nav class="level">
-                <!-- Left side -->
-                <div class="level-left">
-                  <div class="level-item">
-                    <span class="title">Project List</span>
-                  </div>
-                </div>
-                <!-- Right side -->
-                <div class="level-right">
-                  <div class="level-item">
-                    <div class="field has-addons">
-                      <p class="control">
-                        <input
-                          class="input"
-                          type="text"
-                          v-model="searching[0]"
-                          placeholder="Find Project"
-                        />
-                      </p>
-                      <p class="control">
-                        <button class="button">
-                          <span class="icon">
-                            <i class="fas fa-search"></i>
-                          </span>
-                        </button>
-                      </p>
+            <template v-if="projects != null">
+              <div class="column is-9 is-offset-2">
+                <nav class="level">
+                  <!-- Left side -->
+                  <div class="level-left">
+                    <div class="level-item">
+                      <span class="title">Project List</span>
                     </div>
                   </div>
-                  <div class="level-item ml-2">
-                    <div class="dropdown is-hoverable">
-                      <div class="dropdown-trigger">
-                        <button
-                          class="button"
-                          aria-haspopup="true"
-                          aria-controls="dropdown-menu4"
-                        >
-                          <span class="icon">
-                            <i
-                              class="fa fa-sort-amount-desc fa-2x"
-                              aria-hidden="true"
-                            ></i>
-                          </span>
-                        </button>
+                  <!-- Right side -->
+                  <div class="level-right">
+                    <div class="level-item">
+                      <div class="field has-addons">
+                        <p class="control">
+                          <input
+                            class="input"
+                            type="text"
+                            v-model="searching[0]"
+                            placeholder="Find Project"
+                          />
+                        </p>
+                        <p class="control">
+                          <button class="button">
+                            <span class="icon">
+                              <i class="fas fa-search"></i>
+                            </span>
+                          </button>
+                        </p>
                       </div>
-                      <div
-                        class="dropdown-menu"
-                        id="dropdown-menu4"
-                        role="menu"
-                      >
-                        <div class="dropdown-content">
-                          <div class="dropdown-item">
+                    </div>
+                    <div class="level-item ml-2">
+                      <div class="dropdown is-hoverable">
+                        <div class="dropdown-trigger">
+                          <button
+                            class="button"
+                            aria-haspopup="true"
+                            aria-controls="dropdown-menu4"
+                          >
+                            <span class="icon">
+                              <i
+                                class="fa fa-sort-amount-desc fa-2x"
+                                aria-hidden="true"
+                              ></i>
+                            </span>
+                          </button>
+                        </div>
+                        <div
+                          class="dropdown-menu"
+                          id="dropdown-menu4"
+                          role="menu"
+                        >
+                          <div class="dropdown-content">
+                            <div class="dropdown-item">
                               <label class="radio">
-                                <input type="radio" value="name" 
-                                v-model= "sort_function.sort_project"/>
+                                <input
+                                  type="radio"
+                                  value="name"
+                                  v-model="sort_function.sort_project"
+                                />
                                 Name
                               </label>
-                              <br>
+                              <br />
                               <label class="radio">
-                                <input type="radio" value="id"
-                                v-model= "sort_function.sort_project"/>
+                                <input
+                                  type="radio"
+                                  value="id"
+                                  v-model="sort_function.sort_project"
+                                />
                                 ID
                               </label>
-                              <br>
+                              <br />
                               <label class="radio">
-                                <input type="radio" value="status"
-                                v-model= "sort_function.sort_project"/>
+                                <input
+                                  type="radio"
+                                  value="status"
+                                  v-model="sort_function.sort_project"
+                                />
                                 Status
                               </label>
-                              <br>
+                              <br />
                               <label class="radio">
-                                <input type="radio" value="complete"
-                                v-model= "sort_function.sort_project"/>
+                                <input
+                                  type="radio"
+                                  value="complete"
+                                  v-model="sort_function.sort_project"
+                                />
                                 Complete
                               </label>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </nav>
-              <table class="homepage table is-fullwidth">
-                <thead>
-                  <tr>
-                    <th style="width: 40%">Name</th>
-                    <th style="width: 20%">ID</th>
-                    <th>Status</th>
-                    <th>Complete %</th>
-                    <th style="width: 5"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <template v-if="projects != null">
+                </nav>
+                <table class="homepage table is-fullwidth">
+                  <thead>
+                    <tr>
+                      <th style="width: 40%">Name</th>
+                      <th style="width: 20%">ID</th>
+                      <th>Status</th>
+                      <th>Complete %</th>
+                      <th style="width: 5"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     <template
                       v-for="project in projectResult.slice(
                         page * 5 - 5,
@@ -245,120 +270,129 @@
                         </td>
                       </tr>
                     </template>
-                  </template>
-                </tbody>
-              </table>
-              <div>
-                <div class="buttons has-addons is-centered are-medium">
-                  <button
-                    class="button"
-                    @click="page--"
-                    :class="page <= 1 ? 'is-static' : ''"
-                  >
-                    ◄
-                  </button>
-                  <button class="button is-static">
-                    {{ page }}
-                  </button>
-                  <button
-                    class="button"
-                    @click="page++"
-                    :class="page >= pageCount('project') ? 'is-static' : ''"
-                  >
-                    ►
-                  </button>
+                  </tbody>
+                </table>
+                <div>
+                  <div class="buttons has-addons is-centered are-medium">
+                    <button
+                      class="button"
+                      @click="page--"
+                      :class="page <= 1 ? 'is-static' : ''"
+                    >
+                      ◄
+                    </button>
+                    <button class="button is-static">
+                      {{ page }}
+                    </button>
+                    <button
+                      class="button"
+                      @click="page++"
+                      :class="page >= pageCount('project') ? 'is-static' : ''"
+                    >
+                      ►
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </template>
           </template>
           <template v-if="!listItem">
-            <div class="column is-9 is-offset-2">
-              <nav class="level">
-                <!-- Left side -->
-                <div class="level-left">
-                  <div class="level-item">
-                    <span class="title">Parts List</span>
-                  </div>
-                </div>
-                <!-- Right side -->
-                <div class="level-right">
-                  <div class="level-item">
-                    <div class="field has-addons">
-                      <p class="control">
-                        <input
-                          class="input"
-                          type="text"
-                          v-model="searching[1]"
-                          placeholder="Find Part"
-                        />
-                      </p>
-                      <p class="control">
-                        <button class="button">
-                          <span class="icon">
-                            <i class="fas fa-search"></i>
-                          </span>
-                        </button>
-                      </p>
+            <template v-if="parts != null">
+              <div class="column is-9 is-offset-2">
+                <nav class="level">
+                  <!-- Left side -->
+                  <div class="level-left">
+                    <div class="level-item">
+                      <span class="title">Parts List</span>
                     </div>
                   </div>
-                  <div class="level-item ml-2">
-                                        <div class="dropdown is-hoverable">
-                      <div class="dropdown-trigger">
-                        <button
-                          class="button"
-                          aria-haspopup="true"
-                          aria-controls="dropdown-menu4"
-                        >
-                          <span class="icon">
-                            <i
-                              class="fa fa-sort-amount-desc fa-2x"
-                              aria-hidden="true"
-                            ></i>
-                          </span>
-                        </button>
+                  <!-- Right side -->
+                  <div class="level-right">
+                    <div class="level-item">
+                      <div class="field has-addons">
+                        <p class="control">
+                          <input
+                            class="input"
+                            type="text"
+                            v-model="searching[1]"
+                            placeholder="Find Part"
+                          />
+                        </p>
+                        <p class="control">
+                          <button class="button">
+                            <span class="icon">
+                              <i class="fas fa-search"></i>
+                            </span>
+                          </button>
+                        </p>
                       </div>
-                      <div
-                        class="dropdown-menu"
-                        id="dropdown-menu4"
-                        role="menu"
-                      >
-                        <div class="dropdown-content">
-                          <div class="dropdown-item">
+                    </div>
+                    <div class="level-item ml-2">
+                      <div class="dropdown is-hoverable">
+                        <div class="dropdown-trigger">
+                          <button
+                            class="button"
+                            aria-haspopup="true"
+                            aria-controls="dropdown-menu4"
+                          >
+                            <span class="icon">
+                              <i
+                                class="fa fa-sort-amount-desc fa-2x"
+                                aria-hidden="true"
+                              ></i>
+                            </span>
+                          </button>
+                        </div>
+                        <div
+                          class="dropdown-menu"
+                          id="dropdown-menu4"
+                          role="menu"
+                        >
+                          <div class="dropdown-content">
+                            <div class="dropdown-item">
                               <label class="radio">
-                                <input type="radio" value="number"
-                                v-model= "sort_function.sort_part"/>
+                                <input
+                                  type="radio"
+                                  value="number"
+                                  v-model="sort_function.sort_part"
+                                />
                                 Number
                               </label>
-                              <br>
+                              <br />
                               <label class="radio">
-                                <input type="radio" value="name" 
-                                v-model= "sort_function.sort_part"/>
+                                <input
+                                  type="radio"
+                                  value="name"
+                                  v-model="sort_function.sort_part"
+                                />
                                 Name
                               </label>
-                              <br>
+                              <br />
                               <label class="radio">
-                                <input type="radio" value="id"
-                                v-model= "sort_function.sort_part"/>
+                                <input
+                                  type="radio"
+                                  value="id"
+                                  v-model="sort_function.sort_part"
+                                />
                                 Project ID
                               </label>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </nav>
-              <table class="table is-fullwidth">
-                <thead>
-                  <tr>
-                    <th>Part Number</th>
-                    <th>Name</th>
-                    <th>Project ID</th>
-                    <th style="width: 5"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <template v-if="parts != null">
+                </nav>
+                <table class="table is-fullwidth">
+                  <thead>
+                    <tr>
+                      <th>Part Number</th>
+                      <th>Name</th>
+                      <th>Project ID</th>
+                      <th style="width: 5"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     <template
                       v-for="part in partResult.slice(
                         page * 10 - 10,
@@ -386,31 +420,31 @@
                         </td>
                       </tr>
                     </template>
-                  </template>
-                </tbody>
-              </table>
-              <div>
-                <div class="buttons has-addons is-centered are-medium">
-                  <button
-                    class="button"
-                    @click="page--"
-                    :class="page <= 1 ? 'is-static' : ''"
-                  >
-                    ◄
-                  </button>
-                  <button class="button is-static">
-                    {{ page }}
-                  </button>
-                  <button
-                    class="button"
-                    @click="page++"
-                    :class="page >= pageCount('parts') ? 'is-static' : ''"
-                  >
-                    ►
-                  </button>
+                  </tbody>
+                </table>
+                <div>
+                  <div class="buttons has-addons is-centered are-medium">
+                    <button
+                      class="button"
+                      @click="page--"
+                      :class="page <= 1 ? 'is-static' : ''"
+                    >
+                      ◄
+                    </button>
+                    <button class="button is-static">
+                      {{ page }}
+                    </button>
+                    <button
+                      class="button"
+                      @click="page++"
+                      :class="page >= pageCount('parts') ? 'is-static' : ''"
+                    >
+                      ►
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </template>
           </template>
         </div>
       </div>
@@ -422,10 +456,10 @@
 </template>
 
 <script>
-console.clear();
 import axios from "axios";
 import router from "../router/index.js";
 /* eslint-disable */
+
 export default {
   data() {
     return {
@@ -433,8 +467,10 @@ export default {
         sort_project: "id", //name,id,status,%
         sort_part: "number", //number,name,projectId
       },
+      dropdown: false,
       searching: ["", ""],
       loginStatus: false, //loginStatus
+      user: null,
       pageloader: "is-active",
       sidebar: true,
       listItem: true,
@@ -484,58 +520,82 @@ export default {
     },
     //sort_function
     sort_id(select) {
-      function compare(a, b){
-        if (a.project_id < b.project_id){return -1}
-        else if (a.project_id > b.project_id){return 1}
-        else {return 0}
+      function compare(a, b) {
+        if (a.project_id < b.project_id) {
+          return -1;
+        } else if (a.project_id > b.project_id) {
+          return 1;
+        } else {
+          return 0;
+        }
       }
 
-      if(select){
-        this.projects.sort(compare)
+      if (select) {
+        this.projects.sort(compare);
       } else {
-        this.parts.sort(compare)
+        this.parts.sort(compare);
       }
     },
     sort_project_name() {
-      function compare(a, b){
-        if (a.project_name < b.project_name){return -1}
-        else if (a.project_name > b.project_name){return 1}
-        else {return 0}
+      function compare(a, b) {
+        if (a.project_name < b.project_name) {
+          return -1;
+        } else if (a.project_name > b.project_name) {
+          return 1;
+        } else {
+          return 0;
+        }
       }
-      this.projects.sort(compare)
+      this.projects.sort(compare);
     },
-    sort_part_name(){
-      function compare(a, b){
-        if (a.part_name < b.part_name){return -1}
-        else if (a.part_name > b.part_name){return 1}
-        else {return 0}
+    sort_part_name() {
+      function compare(a, b) {
+        if (a.part_name < b.part_name) {
+          return -1;
+        } else if (a.part_name > b.part_name) {
+          return 1;
+        } else {
+          return 0;
+        }
       }
-      this.parts.sort(compare)
+      this.parts.sort(compare);
     },
     sort_complete() {
-      function compare(a, b){
-        if (a.completeness < b.completeness){return -1}
-        else if (a.completeness > b.completeness){return 1}
-        else {return 0}
+      function compare(a, b) {
+        if (a.completeness < b.completeness) {
+          return -1;
+        } else if (a.completeness > b.completeness) {
+          return 1;
+        } else {
+          return 0;
+        }
       }
-      this.projects.sort(compare)
+      this.projects.sort(compare);
     },
     sort_status() {
-      function compare(a, b){
-        if (a.status < b.status){return -1}
-        else if (a.status > b.status){return 1}
-        else {return 0}
+      function compare(a, b) {
+        if (a.status < b.status) {
+          return -1;
+        } else if (a.status > b.status) {
+          return 1;
+        } else {
+          return 0;
+        }
       }
-      this.projects.sort(compare)
+      this.projects.sort(compare);
     },
-    sort_number(){
-      function compare(a, b){
-        if (a.part_number < b.part_number){return -1}
-        else if (a.part_number > b.part_number){return 1}
-        else {return 0}
+    sort_number() {
+      function compare(a, b) {
+        if (a.part_number < b.part_number) {
+          return -1;
+        } else if (a.part_number > b.part_number) {
+          return 1;
+        } else {
+          return 0;
+        }
       }
-      this.parts.sort(compare)
-    }
+      this.parts.sort(compare);
+    },
   },
   watch: {
     listItem: function (val) {
@@ -544,16 +604,16 @@ export default {
   },
   computed: {
     projectResult() {
-      if (this.sort_function.sort_project == 'name'){
+      if (this.sort_function.sort_project == "name") {
         this.sort_project_name(true);
       }
-      if (this.sort_function.sort_project == 'id'){
+      if (this.sort_function.sort_project == "id") {
         this.sort_id(true);
       }
-      if (this.sort_function.sort_project == 'status'){
+      if (this.sort_function.sort_project == "status") {
         this.sort_status(true);
       }
-      if (this.sort_function.sort_project == 'complete'){
+      if (this.sort_function.sort_project == "complete") {
         this.sort_complete(true);
       }
 
@@ -570,13 +630,13 @@ export default {
       return result;
     },
     partResult() {
-      if (this.sort_function.sort_part == 'name'){
+      if (this.sort_function.sort_part == "name") {
         this.sort_part_name();
       }
-      if (this.sort_function.sort_part == 'id'){
+      if (this.sort_function.sort_part == "id") {
         this.sort_id(false);
       }
-      if (this.sort_function.sort_part == 'number'){
+      if (this.sort_function.sort_part == "number") {
         this.sort_number();
       }
 
@@ -592,20 +652,31 @@ export default {
       });
       return result;
     },
+    logout() {
+      this.loginStatus = false
+      localStorage.removeItem('user');
+    }
   },
   created: async function () {
-    await axios
-      .get("http://localhost:3000/")
-      .then((response) => {
-        this.projects = response.data.projects;
-        this.parts = response.data.parts;
-        this.projects.map((value) => {
-          value.search_page = true;
+    if ("user" in localStorage) {
+      this.user = JSON.parse(localStorage.getItem("user"));
+      this.loginStatus = true;
+    }
+
+    if (this.loginStatus) {
+      await axios
+        .get("http://localhost:3000/")
+        .then((response) => {
+          this.projects = response.data.projects;
+          this.parts = response.data.parts;
+          this.projects.map((value) => {
+            value.search_page = true;
+          });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }
 
     let afterloader = new Promise(function (myResolve) {
       setTimeout(() => {

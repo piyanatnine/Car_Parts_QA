@@ -9,11 +9,11 @@ const routes = [
     name: 'Home',
     component: () => import('../views/Homepage.vue') // set homepage as path '/'
   }, 
-  // {
-  //   path: '/login',
-  //   name: 'LogIn',
-  //   component: () => import('../views/LogIn.vue') // LogIn screen after Homepage
-  // },
+  {
+    path: '/login',
+    name: 'LogIn',
+    component: () => import('../views/LogIn.vue') // LogIn screen after Homepage
+  },
   {
     path: '/:project_id/:part_number',
     name: 'part_page',

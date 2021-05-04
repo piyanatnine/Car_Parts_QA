@@ -45,15 +45,28 @@
         </template>
         <template v-if="loginStatus">
           <!-- เเสดงรูปพนักงาน+ชื่อ  -->
-          <div class="navbar-item">
+           <div class="navbar-item">
             <span class="icon-text">
               <span class="icon pt-1">
                 <i class="fas fa-user-circle"></i>
               </span>
-              <span> UserName </span>
-              <span class="icon pt-1">
-                <i class="fas fa-angle-down"></i>
-              </span>
+              <span> {{ user.first_name }}</span>
+              <div class="dropdown is-right" :class= "dropdown ? 'is-active' : ''">
+                <div class="dropdown-trigger">
+                  <button style= "background-color: Transparent;outline:none;border: none;overflow: hidden;">
+                    <span class="icon" style="color: white;" @click= "dropdown = !dropdown">
+                      <i class="fas fa-angle-down is-2x" aria-hidden="true"></i>
+                    </span>
+                  </button>
+                </div>
+                <div class="dropdown-menu">
+                  <div class="dropdown-content">
+                    <a class="dropdown-item" @click="loaderPage('/'+user.employee_id)"> userpage </a>
+                    <hr class="dropdown-divider" />
+                    <a class="dropdown-item" @click="logout()"> Logout </a>
+                  </div>
+                </div>
+              </div>
             </span>
           </div>
         </template>
@@ -283,20 +296,16 @@ import router from "../router/index.js";
 export default {
   data() {
     return {
-      loginStatus: true,
+      loginStatus: false,
       pageloader: "is-active",
       sidebar: false,
       editproject : false,
+      dropdown: false,
       //reset
       resetproject: false,
-      password: null, 
-      user: {
-        Username: "Admin11111111",
-        employee_id: "11111111",
-        first_name: "Jame",
-        last_name: "Olara",
-        position: "Admin"
-      },
+      password: null,
+
+      user: null,
       project: null,
       //projectEdit
       projectname: null,
@@ -378,10 +387,22 @@ export default {
         .catch((err) => {
           console.log(err);
       });
+    },
+    logout() {
+      this.loginStatus = false
+      localStorage.removeItem('user');
     }
   },
   created: async function () {
-    this.getProjectData()
+    if ("user" in localStorage) {
+      this.user = JSON.parse(localStorage.getItem("user"));
+      this.loginStatus = true;
+    }
+
+    if(this.loginStatus){
+      this.getProjectData()
+    }
+    
     let afterloader = new Promise(function (myResolve) {
       setTimeout(() => {
         return myResolve("");
@@ -392,3 +413,4 @@ export default {
   },
 };
 </script>
+

@@ -10,7 +10,7 @@ router.get('/:project_id', async function (req, res, next) {
   await conn.beginTransaction();
   let [row, fields] = await conn.query("SELECT project.*, part_number, part_name, wi_status, inspec_status, q_point_status FROM part LEFT JOIN (SELECT doc.part_number, `status` AS wi_status FROM document doc JOIN (SELECT part_number, document_type, MAX(IFNULL(approved_datetime, upload_datetime))`date` FROM document GROUP BY part_number, document_type) AS latest ON doc.part_number = latest.part_number AND doc.document_type = latest.document_type AND(IFNULL(doc.approved_datetime, doc.upload_datetime)) = latest.date WHERE doc.document_type = 'Work_Inst') AS wi USING(part_number) LEFT JOIN(SELECT doc.part_number, `status`inspec_status FROM document doc JOIN (SELECT part_number, document_type, MAX(IFNULL(approved_datetime, upload_datetime))`date` FROM document GROUP BY part_number, document_type) AS latest ON doc.part_number = latest.part_number AND doc.document_type = latest.document_type AND(IFNULL(doc.approved_datetime, doc.upload_datetime)) = latest.date WHERE doc.document_type = 'Inspection') AS inspec USING(part_number) LEFT JOIN(SELECT doc.part_number, `status` AS q_point_status FROM document doc JOIN (SELECT part_number, document_type, MAX(IFNULL(approved_datetime, upload_datetime))`date` FROM document GROUP BY part_number, document_type) AS latest ON doc.part_number = latest.part_number AND doc.document_type = latest.document_type AND(IFNULL(doc.approved_datetime, doc.upload_datetime)) = latest.date WHERE doc.document_type = 'Q_Point') AS qp USING(part_number) RIGHT JOIN project USING(project_id) WHERE project_id =?; ",
   [req.params.project_id])
-let project = row
+  let project = row
 try {
   await conn.commit();
   res.json(project);

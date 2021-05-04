@@ -45,15 +45,28 @@
         </template>
         <template v-if="loginStatus">
           <!-- เเสดงรูปพนักงาน+ชื่อ  -->
-          <div class="navbar-item">
+           <div class="navbar-item">
             <span class="icon-text">
               <span class="icon pt-1">
                 <i class="fas fa-user-circle"></i>
               </span>
-              <span> UserName </span>
-              <span class="icon pt-1">
-                <i class="fas fa-angle-down"></i>
-              </span>
+              <span> {{ user.first_name }}</span>
+              <div class="dropdown is-right" :class= "dropdown ? 'is-active' : ''">
+                <div class="dropdown-trigger">
+                  <button style= "background-color: Transparent;outline:none;border: none;overflow: hidden;">
+                    <span class="icon" style="color: white;" @click= "dropdown = !dropdown">
+                      <i class="fas fa-angle-down is-2x" aria-hidden="true"></i>
+                    </span>
+                  </button>
+                </div>
+                <div class="dropdown-menu">
+                  <div class="dropdown-content">
+                    <a class="dropdown-item" @click="loaderPage('/'+user.employee_id)"> userpage </a>
+                    <hr class="dropdown-divider" />
+                    <a class="dropdown-item" @click="logout()"> Logout </a>
+                  </div>
+                </div>
+              </div>
             </span>
           </div>
         </template>
@@ -151,7 +164,7 @@
                   <td>
                     <span>
                       <a
-                        :href="path(Q_Point.Document_URL)"
+                        :href= "Work_Inst != null ? path(Q_Point.Document_URL) : ''"
                         target="_blank"
                         download
                       >
@@ -234,7 +247,7 @@
                   <td>
                     <span>
                       <a
-                        :href="path(Q_Point.Document_URL)"
+                        :href="Inspection != null ? path(Inspection.Document_URL): ''"
                         target="_blank"
                         download
                       >
@@ -317,7 +330,7 @@
                   <td>
                     <span>
                       <a
-                        :href="path(Q_Point.Document_URL)"
+                        :href=" Q_Point != null ? path(Q_Point.Document_URL): ''"
                         target="_blank"
                         download
                       >
@@ -613,18 +626,13 @@ import router from "../router/index.js";
 export default {
   data() {
     return {
-      loginStatus: true,
+      loginStatus: false,
       pageloader: "is-active",
       sidebar: false,
       part: null,
       lastupdate: null,
-
-      user: {
-        employee_id: "44444444",
-        first_name: "Jame",
-        last_name: "smite",
-        position: "Admin",
-      },
+      dropdown: false,
+      user: null,
       Work_Inst: null,
       Inspection: null,
       Q_Point: null,
@@ -813,11 +821,22 @@ export default {
         return "";
       }
     },
+    logout() {
+      this.loginStatus = false
+      localStorage.removeItem('user');
+    }
   },
   created: async function () {
-    console.log(this.lastupdate != null)
-    //axios data
-    this.getPartData();
+    if ("user" in localStorage) {
+      this.user = JSON.parse(localStorage.getItem("user"));
+      this.loginStatus = true;
+    }
+    
+    if(this.loginStatus){
+      //axios data
+      this.getPartData();
+    }
+    
     //loader Page
     let afterloader = new Promise(function (myResolve) {
       setTimeout(() => {
@@ -841,3 +860,5 @@ section .main-content {
   text-overflow: ellipsis;
 }
 </style>
+
+Document_URL

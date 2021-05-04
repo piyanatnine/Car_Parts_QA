@@ -1,118 +1,185 @@
-const express = require('express');
-router = express.Router();
-
-const pool = require('../config');
-const saltedMd5 = require('salted-md5')
-router.get(
-    '/', async function (req, res, next) {
-        try {
-            query_msg = "";
-            query_msg += "SELECT * ";
-            query_msg += "FROM employee; ";
-            const [rows, fields] = await pool.query(query_msg);
-            console.log(rows)
-            return res.render('index', {
-                user: rows,
-                username_input: '',
-                matched_username_position: -1,
-                password_input: '',
-                matched_password_position: -1,
-                response_msg: ''
-            })
-        }
-        catch (err) {
-            return next(err)
-        }
-    }
-)
-router.get(
-    '/home', async function (req, res, next) {
-        res.send('this is homepage')
-    }
-)
-router.get(
-    '/admin', async function (req, res, next) {
-        res.send('this is Admin Panel')
-    }
-)
-router.post(
-    '/user', async function (req, res, next) {
-        try {
-            query_msg = "";
-            query_msg += "SELECT * ";
-            query_msg += "FROM employee; ";
-            const [rows, fields] = await pool.query(query_msg);
-            response_message = ''
-            if ((req.body.username == '') || (req.body.password == ''))
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body onload="set()">
+    <div style="
+        background-color: #9ef0c4;
+        height: 50px;
+        width: 150%;
+        margin: -10px;
+        position: relative;
+        left: 2px;
+    " id="navBar">
+        navbar content
+    </div>
+    <div style="
+        background-color: lightblue;
+        height: 24px;
+        border-radius: 12px;
+        width: 250px;
+        position: relative;
+        top: 30px;
+        left: calc(50% - 125px);
+        font-size: 16px;
+    ">
+        <span style="
+            position: relative;
+            left: 6px;
+        ">
+            <a href="/home">homepage</a>
+            / <%= message[row_no].employee_id %>
+        </span>
+    </div>
+    <div style='
+        /* background-color: navy; */
+        height: 750px;
+        width: 100%;
+        /* color: white; */
+        position: relative;
+        top: 50px;
+    '>
+        <div style='
+            /* background-color: burlywood; */
+            height: 250px;
+            width: 250px;
+            display: inline-block;
+            position: relative;
+            top: 0px;
+            left: 0px;
+        '>
+            <img src="profilePic.png" height="150"><br>
+        </div>
+        <div style='
+            /* background-color: burlywood; */
+            height: 250px;
+            width: 33%;
+            display: inline-block;
+            position: relative;
+            top: -30px;
+            left: 0px;
+            font-size: 24px;
+            font-weight: 600;
+        '>
+            Employee ID: <%= message[row_no].employee_id %> <br> <br>
+            Name: <%= message[row_no].first_name %> <%= message[row_no].last_name %> <br> <br>
+        </div>
+        <div style='
+            /* background-color: burlywood; */
+            height: 250px;
+            width: 33%;
+            display: inline-block;
+            position: relative;
+            top: -85px;
+            left: 350px;
+        ' id='admin'>
+            <!-- <button style='
+                height: 60px;
+                width: 150px;
+            '>
+                <img src="adminPanel.png" height="50" alt="">
+                Admin Panel
+            </button> -->
+        </div>
+        <!-- <h1>
+            you(<%= message[row_no].Username %>) are logged in
+        </h1> -->
+    </div>
+    <div style='
+        /* background-color: cornflowerblue; */
+        height: 100px;
+        width: 400px;
+        position: relative;
+        top: -520px;
+        font-size: 24px;
+        font-weight: 600;
+    '>
+        Position:
+        <%= message[row_no].position %>
+        <form action="/" style='display: inline'>
+            <input type="submit" value="Logout">
+        </form>
+    </div>
+    <br>
+    <br>
+    <div style='
+        /* background-color: lightgray; */
+        height: 40px;
+        width: 90%;
+        position: relative;
+        top: -650px;
+        left: 5%;
+    '>
+        <h1 style='text-decoration: underline;'>
+            Activity Records
+        </h1>
+        <hr>
+        <div style='
+            height: 200px;
+            width: 89%;
+            position: relative;
+            left: 5.5%;
+            overflow-y: scroll;
+        '>
+            <!-- <ul>
+                <% doc_rec.forEach(function(data, i, arr){ %>
+                <li><%= data.upload_datetime %></li>
+                <% }); %>
+            </ul> -->
+        </div>
+    </div>
+    <script type="text/javascript">
+        function set()
+        {
+            localStorage.setItem('currentUser', '<%= message[row_no].Username %>')
+            if ('<%= isAdmin %>' == 1)
             {
-                response_message = 'Username or password is blank'
+                console.log('k')
+                elmnt = '';
+                elmnt += '';
+                elmnt += '<form action=\"/admin\">'
+                elmnt += '    <button style=\''
+                elmnt += '        height: 60px;'
+                elmnt += '        width: 150px;'
+                elmnt += '    \' type=\"submit\">'
+                elmnt += '        <img src=\"adminPanel.png\" height=\"50\" alt=\"\">'
+                elmnt += '        Admin Panel'
+                elmnt += '    </button>'
+                elmnt += '</form>'
+                // elmnt += '<button style=\''
+                // elmnt += '    height: 60px;'
+                // elmnt += '    width: 150px;'
+                // elmnt += '\'>'
+                // elmnt += '    <img src="adminPanel.png" height="50" alt="">'
+                // elmnt += '    Admin Panel'
+                // elmnt += '</button>'
+                document.getElementById('admin').innerHTML = elmnt;
             }
-            username_msg = ''
-            username_position = -1
-            password_msg = ''
-            password_position = -1
-            for (let i = 0; i < rows.length; i++) {
-                const element = rows[i];
-                if (element.Username == req.body.username)
-                {
-                    username_msg += '1';
-                    username_position = i;
-                }
-                else
-                {
-                    username_msg += '0'
-                }
-                if (element.password == saltedMd5(req.body.password, req.body.username))
-                {
-                    password_msg += '1';
-                    password_position = i;
-                }
-                else
-                {
-                    password_msg += '0'
-                }
-                
-            }
-            username_msg += ',' + username_position
-            password_msg += ',' + password_position
-            if ((username_position == -1) || (password_position == -1))
+            if ('<%= isAdmin %>' == 0)
             {
-                response_message = 'Username or password is wrong'
+                console.log('k')
+                elmnt = '';
+                elmnt += '';
+                elmnt += '    <div style=\''
+                elmnt += '        height: 60px;'
+                elmnt += '        width: 150px;'
+                elmnt += '        color: white;'
+                elmnt += '    \'>...'
+                elmnt += '    </div>'
+                // elmnt += '<button style=\''
+                // elmnt += '    height: 60px;'
+                // elmnt += '    width: 150px;'
+                // elmnt += '\'>'
+                // elmnt += '    <img src="adminPanel.png" height="50" alt="">'
+                // elmnt += '    Admin Panel'
+                // elmnt += '</button>'
+                document.getElementById('admin').innerHTML = elmnt;
             }
-            if ((username_position != -1) && (password_position != -1))
-            {
-                doc_query_msg = "";
-                doc_query_msg += "SELECT * ";
-                doc_query_msg += "FROM document ";
-                doc_query_msg += "WHERE uploader=" + rows[username_position].employee_id + "; ";
-                const [doc_rows, doc_fields] = await pool.query(doc_query_msg);
-                console.log(doc_rows)
-                    let isAdmin = 0;
-                if (rows[username_position].position == 'Admin')
-                {
-                    isAdmin = 1;
-                }
-                res.render('user', {
-                    message: rows,
-                    row_no: username_position,
-                    isAdmin: isAdmin,
-                    doc_rec: doc_rows
-                })
-                // res.send(req.body.username)
-            }
-            return res.render('index', {
-                user: rows,
-                username_input: req.body.username,
-                matched_username_position: username_msg,
-                password_input:  saltedMd5(req.body.password, req.body.username),
-                matched_password_position: password_msg,
-                response_msg: response_message
-            })
         }
-        catch (err) {
-            return next(err)
-        }
-    }
-)
-
-exports.router = router;
+    </script>
+</body>
+</html>

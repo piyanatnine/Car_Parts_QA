@@ -63,7 +63,7 @@
                 </div>
                 <div class="dropdown-menu">
                   <div class="dropdown-content">
-                    <a class="dropdown-item" @click="loaderPage('/'+user.employee_id)"> userpage </a>
+                    <a class="dropdown-item" @click="loaderPage('/user/'+user.employee_id+'/userpage')"> userpage </a>
                     <hr class="dropdown-divider" />
                     <a class="dropdown-item" @click="logout()"> Logout </a>
                   </div>

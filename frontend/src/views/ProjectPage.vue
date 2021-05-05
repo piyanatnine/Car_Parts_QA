@@ -61,7 +61,7 @@
                 </div>
                 <div class="dropdown-menu">
                   <div class="dropdown-content">
-                    <a class="dropdown-item" @click="loaderPage('/'+user.employee_id)"> userpage </a>
+                    <a class="dropdown-item" @click="loaderPage('/user/'+user.employee_id+'/userpage')"> userpage </a>
                     <hr class="dropdown-divider" />
                     <a class="dropdown-item" @click="logout()"> Logout </a>
                   </div>
@@ -79,14 +79,13 @@
     >
       <div class="vl"></div>
     </aside>
-    <template v-if= "project != null">
     <section class="section main-content">
       <div class="container is-fluid">
         <nav class="breadcrumb is-centered is-medium" aria-label="breadcrumbs">
           <ul>
             <li @click="loaderPage('/')"><a> HOMEPAGE </a></li>
             <li class="is-active" aria-current="page">
-              <a>{{ zeroPad(project[0].project_id) }} </a>
+              <a>{{ zeroPad(project_head.project_id) }} </a>
             </li>
           </ul>
         </nav>
@@ -95,12 +94,12 @@
         <div class="level-left">
           <div class="level-item">
             <p class="title has-text-weight-bold" style="font-size: 5vw">
-              {{ "Project " + project[0].project_name }}
+              {{ "Project " + project_head.project_name }}
             </p>
           </div>
           <div class="level-item mx-5 pt-3">
             <p class="subtitle has-text-weight-medium" style="font-size: 2vw">
-              {{ `project ID:` + zeroPad(project[0].project_id) }}
+              {{ `project ID:` + zeroPad(project_head.project_id) }}
             </p>
           </div>
         </div>
@@ -171,8 +170,8 @@
           </div>
         </div>
       </div>
+ 
     </section>
-
     <!-- Edit -->
     <div class="modal" :class="{ 'is-active': editproject }">
       <div class="modal-card">
@@ -188,7 +187,7 @@
           <!-- Content ... -->
           <div class="has-text-centered">
             <span class="is-size-4 has-text-weight-semibold"> 
-              {{ 'Project ID: ' + zeroPad(project[0].project_id) }}
+              {{ 'Project ID: ' + zeroPad(project_head.project_id) }}
             </span>
               <div class="field is-horizontal my-5">
               <div class="field-label is-normal">
@@ -224,6 +223,7 @@
         </footer>
       </div>
     </div>
+
     <!-- reset project -->
     <div class="modal" :class="{ 'is-active': resetproject }">
       <div class="modal-card">
@@ -239,7 +239,7 @@
           <!-- Content ... -->
           <div class="has-text-centered">
             <span class="is-size-3 has-text-weight-semibold"> 
-              {{ 'Project ID: ' + zeroPad(project[0].project_id) }}
+              {{ 'Project ID: ' + zeroPad(project_head.project_id) }}
             </span>
             <div>
               <span class="has-text-danger is-size-4 has-text-weight-semibold">
@@ -276,7 +276,6 @@
         </footer>
       </div>
     </div>
-    </template>
     <div :class="pageloader" class="pageloader is-bottom-to-top is-dark">
       <span class="title">Pageloader</span>
     </div>
@@ -307,6 +306,7 @@ export default {
 
       user: null,
       project: null,
+      project_head: null,
       //projectEdit
       projectname: null,
     };
@@ -378,11 +378,10 @@ export default {
       await this.getProjectData()
     },
     async getProjectData() {
-      console.log('getProject')
       await axios.get(`http://localhost:3000/${this.$route.params.project_id}`)
         .then((response) => {
-          this.project = '';
-          this.project = response.data;
+          this.project_head = response.data.project_head[0];
+          this.project = response.data.project_data;
         })
         .catch((err) => {
           console.log(err);
@@ -402,7 +401,6 @@ export default {
     if(this.loginStatus){
       this.getProjectData()
     }
-    
     let afterloader = new Promise(function (myResolve) {
       setTimeout(() => {
         return myResolve("");
@@ -413,4 +411,3 @@ export default {
   },
 };
 </script>
-

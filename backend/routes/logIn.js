@@ -30,26 +30,31 @@ router.post(
             const [rows, fields] = await pool.query('select Username, password from employee where Username = ?',
             [req.body.username]);
 
-            response_message = ''
-            if ((req.body.username == '') || (req.body.password == '')){
-                response_message = 'Username or password is blank'
-            }
-
+            if ( rows[0] == null) {
+                throw new Error('Username or password is Incorrect')
+            } 
+            else {
+            // response_message = ''
+                if ((req.body.username == '') || (req.body.password == '')){
+                    throw new Error('Username or password is blank')
+                }
+            console.log(rows[0])
             //Check user_name
-            if (rows[0].Username == null){
-                throw new Error('Incorrect username')
-            }
+                if (rows[0].Username == null){
+                    throw new Error('Incorrect username')
+                }
 
             //Check password
-            const psw = await saltedMd5(req.body.password, req.body.username, true);
-            if (!(psw == rows[0].password)){
-                throw new Error('Incorrect password');
-            }
+                const psw = await saltedMd5(req.body.password, req.body.username, true);
+                if (!(psw == rows[0].password)){
+                    throw new Error('Incorrect password');
+                }
 
-            let [dataUser] = await pool.query('select employee_id, first_name, last_name, position, Username from employee where Username = ?',
-            [req.body.username])
-            console.log(dataUser)
-            res.status(200).json(dataUser);
+                let [dataUser] = await pool.query('select employee_id, first_name, last_name, position, Username from employee where Username = ?',
+                [req.body.username])
+                console.log(dataUser)
+                res.status(200).json(dataUser);
+            }
             // username_msg = ''
             // username_position = -1
             // password_msg = ''
@@ -97,7 +102,8 @@ router.post(
             // })
         }
         catch (err) {
-            res.send(err+'')
+            console.log(err)
+            res.status(404).send(err);
         }
     }
 )

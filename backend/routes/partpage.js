@@ -55,6 +55,7 @@ router.post('/:project_id/:part_number', uploadStorage.single("file"), async fun
     await conn.query("INSERT INTO document (upload_no, file_name, Document_URL, document_type, status, part_number, uploader, upload_datetime) values(?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP);",
       [upload_no, file_pdf.filename, file_pdf.path.substr(6), req.body.document_type, 'Temporary', req.params.part_number, req.body.uploader]
     );
+    
 
     if (pev_doc != 'null') {
       await conn.query("UPDATE document SET preceding_doc = ? where upload_no = ?", [pev_doc, upload_no])
@@ -141,4 +142,5 @@ router.put('/:project_id/:part_number', uploadStorage.single("file"), async func
     conn.release();
   }
 });
+
 exports.router = router;

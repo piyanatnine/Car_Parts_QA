@@ -61,7 +61,7 @@
                 </div>
                 <div class="dropdown-menu">
                   <div class="dropdown-content">
-                    <a class="dropdown-item" @click="loaderPage('/'+user.employee_id)"> userpage </a>
+                    <a class="dropdown-item" @click="loaderPage('/user/'+user.employee_id+'/userpage')"> userpage </a>
                     <hr class="dropdown-divider" />
                     <a class="dropdown-item" @click="logout()"> Logout </a>
                   </div>
@@ -164,7 +164,7 @@
                   <td>
                     <span>
                       <a
-                        :href= "Work_Inst != null ? path(Q_Point.Document_URL) : ''"
+                        :href= "Work_Inst == null ? '' : path(Work_Inst.Document_URL)"
                         target="_blank"
                         download
                       >
@@ -247,7 +247,7 @@
                   <td>
                     <span>
                       <a
-                        :href="Inspection != null ? path(Inspection.Document_URL): ''"
+                        :href="Inspection == null ? '':path(Inspection.Document_URL)"
                         target="_blank"
                         download
                       >
@@ -330,7 +330,7 @@
                   <td>
                     <span>
                       <a
-                        :href=" Q_Point != null ? path(Q_Point.Document_URL): ''"
+                        :href=" Q_Point == null ? '' : path(Q_Point.Document_URL)"
                         target="_blank"
                         download
                       >
@@ -860,5 +860,3 @@ section .main-content {
   text-overflow: ellipsis;
 }
 </style>
-
-Document_URL

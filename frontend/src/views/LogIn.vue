@@ -43,6 +43,13 @@
               <div class="field is-grouped is-grouped-centered">
                 <button class="button is-success is-lg" @click="loginCheck()">Login</button>
               </div>
+              <template v-if="error_msg != null">
+                <div class="field my-2">
+                <p class="help is-danger" v-if="error_msg != null">
+                    {{ error_msg }}
+                </p>
+                </div>
+              </template>
             </div>
           </div>
         </div>
@@ -114,8 +121,8 @@ export default {
         localStorage.setItem("user", JSON.stringify(response.data[0]));
         this.loaderPage('/');
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        this.error_msg = 'Username or password is Incorrect';
       });
     }
   },

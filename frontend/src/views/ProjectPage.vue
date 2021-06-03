@@ -61,7 +61,7 @@
                 </div>
                 <div class="dropdown-menu">
                   <div class="dropdown-content">
-                    <a class="dropdown-item" @click="loaderPage('/user/'+user.employee_id+'/userpage')"> userpage </a>
+                    <a class="dropdown-item" @click="loaderPage('/user/'+user.employee_id+'/userpage')"> UserProfile </a>
                     <hr class="dropdown-divider" />
                     <a class="dropdown-item" @click="logout()"> Logout </a>
                   </div>
@@ -128,10 +128,11 @@
               </thead>
               <tbody>
                 <template v-for="part in project">
+                  <template v-if="part.part_number != null">
                   <tr
                     class="is-size-5 has-text-centered"
-                    @click = "loaderPage(`/${part.project_id}/${part.part_number}`)"
-                    :key="`${part.project_id}-${part.part_number}`"
+                    @click = "loaderPage(`/${project_head.project_id}/${part.part_number}`)"
+                    :key="`${project_head.project_id}-${part.part_number}`"
                   >
                     <td>{{ zeroPad(part.part_number) }}</td>
                     <td>{{ part.part_name }}</td>
@@ -151,6 +152,7 @@
                       </span>
                     </td>
                   </tr>
+                  </template>
                 </template>
               </tbody>
             </table>
@@ -380,7 +382,7 @@ export default {
     async getProjectData() {
       await axios.get(`http://localhost:3000/${this.$route.params.project_id}`)
         .then((response) => {
-          this.project_head = response.data.project_head[0];
+          this.project_head = response.data.project_head;
           this.project = response.data.project_data;
         })
         .catch((err) => {

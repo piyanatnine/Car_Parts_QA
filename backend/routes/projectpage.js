@@ -13,9 +13,9 @@ router.get('/:project_id', async function (req, res, next) {
       [req.params.project_id])
     let [row1, field1] = await conn.query("SELECT * FROM project WHERE project_id = ?", [req.params.project_id]);
     let project_data = row
-    let project_head = row1
+    let project_head = row1[0]
     await conn.commit();
-    console.log(project_head[0]);
+
     res.json({ project_data, project_head });
   } catch (err) {
     await conn.rollback();
@@ -56,9 +56,15 @@ router.put('/:project_id/reset', async function (req, res, next) {
   console.log(confirm_password == employee_password)
   if (confirm_password == employee_password) {
     try {
-      console.log('OK');
-      res.json({})
-      await conn.commit({ pw: (confirm_password == employee_password) });
+      let [row1, field1] = await conn.query("select part_number from part where project_id = ?;", [req.params.project_id])
+      let pj_id = [];
+      row1.forEach((val)=>{
+        pj_id.push(val.part_number)
+      })
+      await conn.query("UPDATE document SET status = 'Temporary' WHERE part_number in ?", [[pj_id]])
+      console.log(pj_id);
+      await conn.commit();
+      res.send('success')
 
     } catch (err) {
       await conn.rollback();

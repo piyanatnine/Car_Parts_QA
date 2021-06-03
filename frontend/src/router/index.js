@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
 Vue.use(VueRouter)
 
 const routes = [
@@ -32,7 +31,17 @@ const routes = [
   {
     path: '/:project_id',
     name: 'project_page',
-    component: () => import('../views/ProjectPage.vue') // ProjectInformation Page 
+    component: () => import('../views/ProjectPage.vue'), // ProjectInformation Page
+    beforeEnter: (to, from, next) => {
+      const isLoggedIn = !!localStorage.getItem('user')
+
+      if (!isLoggedIn) {
+        alert('Please login first!')
+        next({ path: '/login' })
+      }
+      
+      next()
+    } 
   },
   {
     path: '/user/:employee_id/adminpanel',

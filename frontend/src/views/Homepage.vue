@@ -63,7 +63,7 @@
                 </div>
                 <div class="dropdown-menu">
                   <div class="dropdown-content">
-                    <a class="dropdown-item" @click="loaderPage('/user/'+user.employee_id+'/userpage')"> userpage </a>
+                    <a class="dropdown-item" @click="loaderPage('/user/'+user.employee_id+'/userpage')"> UserProfile </a>
                     <hr class="dropdown-divider" />
                     <a class="dropdown-item" @click="logout()"> Logout </a>
                   </div>
@@ -241,7 +241,7 @@
                           class="has-text-info is-uppercase pt-5 has-text-weight-bold"
                         >
                           {{
-                            project.completeness != "100"
+                            project.completeness != "100.000000000"
                               ? "inprogress"
                               : "complete"
                           }}
@@ -538,9 +538,9 @@ export default {
     },
     sort_project_name() {
       function compare(a, b) {
-        if (a.project_name < b.project_name) {
+        if ((a.project_name).toUpperCase() < b.project_name.toUpperCase()) {
           return -1;
-        } else if (a.project_name > b.project_name) {
+        } else if (a.project_name.toUpperCase() > b.project_name.toUpperCase()) {
           return 1;
         } else {
           return 0;
@@ -550,9 +550,9 @@ export default {
     },
     sort_part_name() {
       function compare(a, b) {
-        if (a.part_name < b.part_name) {
+        if ((a.part_name).toUpperCase() < (b.part_name).toUpperCase()) {
           return -1;
-        } else if (a.part_name > b.part_name) {
+        } else if ((a.part_name).toUpperCase() > (b.part_name).toUpperCase()) {
           return 1;
         } else {
           return 0;
@@ -574,10 +574,10 @@ export default {
     },
     sort_status() {
       function compare(a, b) {
-        if (a.status < b.status) {
-          return -1;
-        } else if (a.status > b.status) {
+        if (parseFloat(a.completeness) < parseFloat(b.completeness)) {
           return 1;
+        } else if (parseFloat(a.completeness) > parseFloat(b.completeness)) {
+          return -1;
         } else {
           return 0;
         }

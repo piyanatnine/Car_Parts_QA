@@ -79,9 +79,8 @@
                   <div class="dropdown-content">
                     <a
                       class="dropdown-item"
-                      @click="loaderPage('/' + user.employee_id)"
                     >
-                      userpage
+                      UserProfile
                     </a>
                     <hr class="dropdown-divider" />
                     <a class="dropdown-item" @click="logout()"> Logout </a>

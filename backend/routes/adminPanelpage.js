@@ -120,4 +120,28 @@ router.put('/user/:emplooyee_id/adminpanel/edituser', async function(req, res, n
   }
 })
 
+// router.get('/adminpanel/already_user/:employee_id', async function(req, res, next) {
+//   const conn = await pool.getConnection();
+//   // Begin transaction
+//   await conn.beginTransaction();
+
+//   try {
+//     let [row2, field2] = await conn.query("select employee_id from employee where employee_id = ?",
+//     [req.params.employee_id]);
+//     let user = row2;
+//     await conn.commit();
+//     console.log(user[0] == undefined);
+//     if(user[0] == undefined){
+//       res.send('OK')
+//     }
+//     else {
+//       res.status(404).send('already use')
+//     }
+//   } catch (err) {
+//     await conn.rollback();
+//     return res.status(500).json(err);
+//   } finally {
+//     conn.release();
+//   }
+// })
 exports.router = router;

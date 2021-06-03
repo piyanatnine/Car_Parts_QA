@@ -61,7 +61,7 @@
                 </div>
                 <div class="dropdown-menu">
                   <div class="dropdown-content">
-                    <a class="dropdown-item" @click="loaderPage('/user/'+user.employee_id+'/userpage')"> userpage </a>
+                    <a class="dropdown-item" @click="loaderPage('/user/'+user.employee_id+'/userpage')"> UserProfile </a>
                     <hr class="dropdown-divider" />
                     <a class="dropdown-item" @click="logout()"> Logout </a>
                   </div>
@@ -542,26 +542,47 @@
             <p class="modal-card-title has-text-weight-semibold">
               ChangeStatus
             </p>
+            <template v-if="!comfirmComplete">
+            <button
+              class="delete"
+              aria-label="close"
+              @click="comfirmStatusComplete(false)"
+            ></button>
+            </template>
+            <template v-else>
             <button
               class="delete"
               aria-label="close"
               @click="confirmPage = false"
+              v-if="comfirmComplete"
             ></button>
+            </template>
           </header>
           <section class="modal-card-body has-background-white-bis">
             <!-- Content ... -->
-            <div class="has-text-centered">
+            <div class="has-text-centered" v-if="!comfirmComplete">
+              <span class="title"> Are you sure change Status?</span>
+            </div>
+            <div class="has-text-centered" v-if="comfirmComplete">
               <span class="title"> Change Status Complete!</span>
             </div>
           </section>
-          <button class="modal-close is-large" aria-label="close"></button>
           <footer class="modal-card-foot">
-            <button
-              class="level-item has-text-centered button"
-              @click="confirmPage = false"
-            >
-              OK
-            </button>
+            <nav class="level">
+              <button
+                class="level-item has-text-centered button"
+                @click="comfirmStatusComplete(false)"
+                v-if="!comfirmComplete"
+              >
+                Cancel
+              </button>
+              <button class="level-item button is-success" @click="comfirmStatusComplete(true)" v-if="!comfirmComplete">
+                OK
+              </button>
+              <button class="level-item button is-success" @click="confirmPage = false" v-if="comfirmComplete">
+                OK
+              </button>
+            </nav>
           </footer>
         </div>
       </div>
@@ -647,6 +668,9 @@ export default {
       file_name: null,
       //confirmpage
       confirmPage: false,
+      upload_no: '',
+      comfirmComplete: '',
+      type_doc: '',
       //logHistory
       logOpen: false,
       log_history: null,
@@ -705,17 +729,19 @@ export default {
       return num.toString().padStart(8, "0");
     },
     upload(type) {
-      this.file_name = null;
-      this.upload_page = true;
-      this.type = type;
-      if (type == "Work_Inst" && this.Work_Inst != null) {
-        this.pev_number = this.Work_Inst.upload_no;
-      }
-      if (type == "Inspection" && this.Inspection != null) {
-        this.pev_number = this.Inspection.upload_no;
-      }
-      if (type == "Q_Point" && this.Q_Point != null) {
-        this.pev_number = this.Q_Point.upload_no;
+      if (this.user.position == 'Admin' || this.user.position == 'QA'){
+        this.file_name = null;
+        this.upload_page = true;
+        this.type = type;
+        if (type == "Work_Inst" && this.Work_Inst != null) {
+          this.pev_number = this.Work_Inst.upload_no;
+        }
+        if (type == "Inspection" && this.Inspection != null) {
+          this.pev_number = this.Inspection.upload_no;
+        }
+        if (type == "Q_Point" && this.Q_Point != null) {
+          this.pev_number = this.Q_Point.upload_no;
+        }
       }
     },
     previewFiles(file) {
@@ -786,8 +812,11 @@ export default {
         return "has-text-grey";
       }
     },
-    async changeStatus(doc) {
+    changeStatus(doc) {
+      if (this.user.position == 'Admin' || this.user.position == 'QA'){
       this.confirmPage = true;
+      this.comfirmComplete = false;
+      this.type_doc = doc;
       var upload_no = "";
       if (doc == "Work_Inst") {
         upload_no = this.Work_Inst.upload_no;
@@ -798,13 +827,29 @@ export default {
       if (doc == "Q_Point") {
         upload_no = this.Q_Point.upload_no;
       }
+      this.upload_no = upload_no;
       // console.log(upload_no);
-
-      //axios
-      await axios
+      }
+      else {
+        alert (`User can't change status!`);
+        if (doc == "Work_Inst") {
+          this.Work_Inst.status = 'Temporary' ;
+        }
+        if (doc == "Inspection") {
+          this.Inspection.status = 'Temporary' ;
+        }
+        if (doc == "Q_Point") {
+          this.Q_Point.status = 'Temporary' ;
+        }
+      }
+    },
+    async comfirmStatusComplete(check){
+      if (check){
+        //axios
+        await axios
         .put(
           `http://localhost:3000/${this.$route.params.project_id}/${this.$route.params.part_number}/status`,
-          { upload_no: upload_no, user_id: this.user.employee_id }
+          { upload_no: this.upload_no, user_id: this.user.employee_id }
         )
         .then((response) => {
           console.log(response.data);
@@ -812,7 +857,21 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      await this.getPartData();
+        await this.getPartData();
+        this.comfirmComplete = true
+      }
+      else if (!check){
+        if (this.type_doc == "Work_Inst") {
+          this.Work_Inst.status = 'Temporary' ;
+        }
+        if (this.type_doc == "Inspection") {
+          this.Inspection.status = 'Temporary' ;
+        }
+        if (this.type_doc == "Q_Point") {
+          this.Q_Point.status = 'Temporary' ;
+        }
+        this.confirmPage = false;
+      }
     },
     path(txt) {
       if (txt) {

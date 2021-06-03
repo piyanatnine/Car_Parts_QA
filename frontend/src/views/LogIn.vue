@@ -17,10 +17,14 @@
                     Username
                 </label>
                 <div class="control has-icons-left">
-                    <input type="text" placeholder="Username" class="input" required v-model="username">
+                    <input type="text" placeholder="Username" class="input" required v-model="$v.username.$model">
                     <span class="icon is-small is-left">
                         <i class="fas fa-user"></i>
                     </span>
+                    <template v-if="$v.username.$error">
+                      <p class="help is-danger" v-if="!$v.username.required">Username can be blank</p>
+                      <p class="help is-danger" v-if="!$v.username.maxLength">Password is maxlength = 20</p>
+                    </template>
                 </div>
               </div>
               <div class="field">
@@ -28,10 +32,14 @@
                     Password
                 </label>
                 <div class="control has-icons-left">
-                    <input type="password" placeholder="Password" class="input"  maxlength="20" required v-model="password"> 
+                    <input type="password" placeholder="Password" class="input"  maxlength="20" v-model="$v.password.$model"> 
                     <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>
                     </span>
+                    <template v-if="$v.password.$error">
+                      <p class="help is-danger" v-if="!$v.password.required">Password can be blank</p>
+                      <p class="help is-danger" v-if="!$v.password.minLength">Password is minlength = 4</p>
+                    </template>
                 </div>
               </div>
               <div class="field my-4">
@@ -77,13 +85,14 @@
 <script>
 import axios from 'axios';
 import router from "../router/index.js";
+import { required, minLength, maxLength  } from 'vuelidate/lib/validators';
 export default {
   data() {
     return {
       pageloader: 'is-active',
-      username: null,
-      password: null,
-      error_msg: null
+      username: '',
+      password: '',
+      error_msg: ''
     }
   },
   methods: {
@@ -109,6 +118,8 @@ export default {
       }
     },
     async loginCheck(){
+      this.$v.$touch();
+      if (!this.$v.invalid) {
       axios.post('http://localhost:3000/login', {
         username: this.username,
         password: this.password
@@ -124,6 +135,7 @@ export default {
       .catch(() => {
         this.error_msg = 'Username or password is Incorrect';
       });
+      }
     }
   },
   created: async function() {
@@ -134,6 +146,17 @@ export default {
       });
 
       this.pageloader = await afterloader;
-  }  
+  },
+  validations: {
+    password: {
+       required: required,
+       minLength: minLength(4),
+     },
+     username: {
+       required: required,
+       minLength: minLength(4),
+       maxLength: maxLength(20)
+     }
+  } 
 }
 </script>

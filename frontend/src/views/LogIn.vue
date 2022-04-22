@@ -120,7 +120,7 @@ export default {
     async loginCheck(){
       this.$v.$touch();
       if (!this.$v.invalid) {
-      axios.post('http://localhost:3000/login', {
+      axios.post(`${process.env.APP_APIS_TARGET}/login`, {
         username: this.username,
         password: this.password
       })

@@ -665,7 +665,7 @@ export default {
 
     if (this.loginStatus) {
       await axios
-        .get("http://localhost:3000/")
+        .get(`${process.env.APP_APIS_TARGET}/`)
         .then((response) => {
           this.projects = response.data.projects;
           this.parts = response.data.parts;

@@ -851,7 +851,7 @@ export default {
       this.$v.$touch();
 
       if (!(this.$v.project_name.$invalid || this.$v.select_customer.$invalid)){
-      await axios.post(`http://localhost:3000/user/${this.$route.params.employee_id}/adminpanel/addproject`, 
+      await axios.post(`${process.env.APP_APIS_TARGET}/user/${this.$route.params.employee_id}/adminpanel/addproject`, 
       {project_name: this.project_name, customer_id: this.select_customer})
        .then((response) => {
           console.log(response.data);

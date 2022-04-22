@@ -5,9 +5,7 @@ node_modules
 # video Background
 /src/assets/Car_Engine_Parts_3.mov
 
-# local env files
-.env.local
-.env.*.local
+.env**
 
 # Log files
 npm-debug.log*

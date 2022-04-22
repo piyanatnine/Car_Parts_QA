@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 /dist
+package-lock.json
 
 # video Background
 /src/assets/Car_Engine_Parts_3.mov

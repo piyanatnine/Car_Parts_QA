@@ -739,7 +739,7 @@ import router from "../router/index.js";
 import axios from "axios";
 
 // async function username_already_use (value) {
-//     await axios.get(`http://localhost:3000/adminpanel/already_user/${value}`, {employee_id: value})
+//     await axios.get(`${process.env.APP_APIS_TARGET}/adminpanel/already_user/${value}`, {employee_id: value})
 //     .then(()=>{return true})
 //     .catch(()=>{return false})
 // }
@@ -827,7 +827,7 @@ export default {
 
       await axios
         .post(
-          `http://localhost:3000/user/${this.$route.params.employee_id}/adminpanel/addpart`,
+          `${process.env.APP_APIS_TARGET}/user/${this.$route.params.employee_id}/adminpanel/addpart`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         )
@@ -882,7 +882,7 @@ export default {
     },
     async edituserSummit(){
       await axios.put(
-        `http://localhost:3000/user/${this.$route.params.employee_id}/adminpanel/edituser`,
+        `${process.env.APP_APIS_TARGET}/user/${this.$route.params.employee_id}/adminpanel/edituser`,
         { firstname: this.firstname, lastname: this.lastname, position: this.position,
         employee_id: this.employee_id }
       )
@@ -899,7 +899,7 @@ export default {
     async getData() {
       await axios
         .get(
-          `http://localhost:3000/user/${this.$route.params.employee_id}/adminpanel`
+          `${process.env.APP_APIS_TARGET}/user/${this.$route.params.employee_id}/adminpanel`
         )
         .then((response) => {
           this.projects = response.data.projects;
@@ -915,7 +915,7 @@ export default {
         if (!(this.$v.employee_id.$invalid  || this.$v.firstname.$invalid 
             || this.$v.lastname.$invalid || this.$v.position.$invalid
             || this.$v.password.$invalid || this.$v.confirm_password.$invalid)){
-          await axios.post(`http://localhost:3000/user/${this.$route.params.employee_id}/adminpanel/adduser`,
+          await axios.post(`${process.env.APP_APIS_TARGET}/user/${this.$route.params.employee_id}/adminpanel/adduser`,
           { employee_id: this.employee_id, 
             firstname: this.firstname, 
             lastname: this.lastname,

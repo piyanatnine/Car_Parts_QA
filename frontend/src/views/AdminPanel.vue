@@ -738,11 +738,6 @@ import { required, minLength, sameAs, maxLength} from 'vuelidate/lib/validators'
 import router from "../router/index.js";
 import axios from "axios";
 
-// async function username_already_use (value) {
-//     await axios.get(`${process.env.APP_APIS_TARGET}/adminpanel/already_user/${value}`, {employee_id: value})
-//     .then(()=>{return true})
-//     .catch(()=>{return false})
-// }
 export default {
   data() {
     return {

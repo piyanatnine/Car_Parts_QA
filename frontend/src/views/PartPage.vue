@@ -848,7 +848,7 @@ export default {
         //axios
         await axios
         .put(
-          `${process.env.APP_APIS_TARGET}/${this.$route.params.project_id}/${this.$route.params.part_number}/status`,
+          `${process.env.VUE_APP_APIS_TARGET}/${this.$route.params.project_id}/${this.$route.params.part_number}/status`,
           { upload_no: this.upload_no, user_id: this.user.employee_id }
         )
         .then((response) => {
@@ -875,7 +875,7 @@ export default {
     },
     path(txt) {
       if (txt) {
-        return `${process.env.APP_APIS_TARGET}/` + txt;
+        return `${process.env.VUE_APP_APIS_TARGET}/` + txt;
       } else {
         return "";
       }

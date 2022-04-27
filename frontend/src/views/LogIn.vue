@@ -121,7 +121,7 @@ export default {
     async loginCheck(){
       this.$v.$touch();
       if (!this.$v.invalid) {
-      axios.post(`${process.env.APP_APIS_TARGET}/login`, {
+      axios.post(`${process.env.VUE_APP_APIS_TARGET}/login`, {
         username: this.username,
         password: this.password
       })
@@ -145,7 +145,7 @@ export default {
           return myResolve("");
         }, 1000);
       });
-      console.log(process.env.VUE_APP_APIS_TARGET)
+      console.log(process.env.VUE_VUE_APP_APIS_TARGET)
       this.pageloader = await afterloader;
   },
   validations: {

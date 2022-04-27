@@ -355,7 +355,7 @@ export default {
     },
     async editConfirm() {
       this.editproject = false;
-      await axios.put(`${process.env.APP_APIS_TARGET}/${this.$route.params.project_id}`, {project_name: this.projectname})
+      await axios.put(`${process.env.VUE_APP_APIS_TARGET}/${this.$route.params.project_id}`, {project_name: this.projectname})
         .then((response) => {
           console.log(response)
         })
@@ -370,7 +370,7 @@ export default {
     },
     async resetConfirm() {
       this.resetproject = false;
-      await axios.put(`${process.env.APP_APIS_TARGET}/${this.$route.params.project_id}/reset`, {employee_id: this.user.employee_id, password_check: this.password})
+      await axios.put(`${process.env.VUE_APP_APIS_TARGET}/${this.$route.params.project_id}/reset`, {employee_id: this.user.employee_id, password_check: this.password})
         .then((response) => {
           console.log(response.data)
         })
@@ -380,7 +380,7 @@ export default {
       await this.getProjectData()
     },
     async getProjectData() {
-      await axios.get(`${process.env.APP_APIS_TARGET}/${this.$route.params.project_id}`)
+      await axios.get(`${process.env.VUE_APP_APIS_TARGET}/${this.$route.params.project_id}`)
         .then((response) => {
           this.project_head = response.data.project_head;
           this.project = response.data.project_data;

@@ -665,7 +665,7 @@ export default {
 
     if (this.loginStatus) {
       await axios
-        .get(`${process.env.APP_APIS_TARGET}/`)
+        .get(`${process.env.VUE_APP_APIS_TARGET}/`)
         .then((response) => {
           this.projects = response.data.projects;
           this.parts = response.data.parts;

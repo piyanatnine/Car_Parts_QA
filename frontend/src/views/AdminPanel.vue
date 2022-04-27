@@ -822,7 +822,7 @@ export default {
 
       await axios
         .post(
-          `${process.env.APP_APIS_TARGET}/user/${this.$route.params.employee_id}/adminpanel/addpart`,
+          `${process.env.VUE_APP_APIS_TARGET}/user/${this.$route.params.employee_id}/adminpanel/addpart`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         )
@@ -846,7 +846,7 @@ export default {
       this.$v.$touch();
 
       if (!(this.$v.project_name.$invalid || this.$v.select_customer.$invalid)){
-      await axios.post(`${process.env.APP_APIS_TARGET}/user/${this.$route.params.employee_id}/adminpanel/addproject`, 
+      await axios.post(`${process.env.VUE_APP_APIS_TARGET}/user/${this.$route.params.employee_id}/adminpanel/addproject`, 
       {project_name: this.project_name, customer_id: this.select_customer})
        .then((response) => {
           console.log(response.data);
@@ -877,7 +877,7 @@ export default {
     },
     async edituserSummit(){
       await axios.put(
-        `${process.env.APP_APIS_TARGET}/user/${this.$route.params.employee_id}/adminpanel/edituser`,
+        `${process.env.VUE_APP_APIS_TARGET}/user/${this.$route.params.employee_id}/adminpanel/edituser`,
         { firstname: this.firstname, lastname: this.lastname, position: this.position,
         employee_id: this.employee_id }
       )
@@ -894,7 +894,7 @@ export default {
     async getData() {
       await axios
         .get(
-          `${process.env.APP_APIS_TARGET}/user/${this.$route.params.employee_id}/adminpanel`
+          `${process.env.VUE_APP_APIS_TARGET}/user/${this.$route.params.employee_id}/adminpanel`
         )
         .then((response) => {
           this.projects = response.data.projects;
@@ -910,7 +910,7 @@ export default {
         if (!(this.$v.employee_id.$invalid  || this.$v.firstname.$invalid 
             || this.$v.lastname.$invalid || this.$v.position.$invalid
             || this.$v.password.$invalid || this.$v.confirm_password.$invalid)){
-          await axios.post(`${process.env.APP_APIS_TARGET}/user/${this.$route.params.employee_id}/adminpanel/adduser`,
+          await axios.post(`${process.env.VUE_APP_APIS_TARGET}/user/${this.$route.params.employee_id}/adminpanel/adduser`,
           { employee_id: this.employee_id, 
             firstname: this.firstname, 
             lastname: this.lastname,

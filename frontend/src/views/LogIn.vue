@@ -145,7 +145,7 @@ export default {
           return myResolve("");
         }, 1000);
       });
-      console.log(process.env.VUE_VUE_APP_APIS_TARGET)
+      console.log(process.env.VUE_APP_APIS_TARGET)
       this.pageloader = await afterloader;
   },
   validations: {

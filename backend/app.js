@@ -25,6 +25,7 @@ app.use(login_Router.router);
 app.use(adminpanel_Router.router);
 app.use(user_Router.router)
 
-app.listen(3000, () => {
-  console.log(`Example app listening at http://localhost:3000`)
+app.listen(3001, () => {
+  console.log(`Example app listening at http://localhost:3001`)
+  console.log(process.env)
 })

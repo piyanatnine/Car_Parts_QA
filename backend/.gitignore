@@ -6,8 +6,7 @@ package-lock.json
 
 #PDF
 /static/uploads
-# sql password
-/config.js
+
 
 # local env files
 .env**

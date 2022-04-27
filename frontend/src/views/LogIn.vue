@@ -45,7 +45,7 @@
               <div class="field my-4">
                 <label for="" class="checkbox has-text-weight-bold">
                   <input type="checkbox" />
-                  Remember me
+                  Remember me 
                 </label>
               </div>
               <div class="field is-grouped is-grouped-centered">
@@ -86,6 +86,7 @@
 import axios from 'axios';
 import router from "../router/index.js";
 import { required, minLength, maxLength  } from 'vuelidate/lib/validators';
+
 export default {
   data() {
     return {
@@ -144,7 +145,7 @@ export default {
           return myResolve("");
         }, 1000);
       });
-
+      console.log(process.env.VUE_APP_APIS_TARGET)
       this.pageloader = await afterloader;
   },
   validations: {

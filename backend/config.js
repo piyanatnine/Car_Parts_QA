@@ -1,10 +1,10 @@
 const sql = require('mysql2/promise')
 
 const passSQL = sql.createPool({
-    host: process.env.SQL_HOSTNAME,
+    host: process.env.NODE_APP_SQL_HOSTNAME,
     user: 'root',
-    password: process.env.SQL_PASSWORD,
-    database: process.env.SQL_DATABASE,
+    password: process.env.NODE_APP_SQL_PASSWORD,
+    database: process.env.NODE_APP_SQL_DATABASE,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0

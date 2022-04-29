@@ -27,5 +27,4 @@ app.use(user_Router.router)
 
 app.listen(3001, () => {
   console.log(`Example app listening at http://localhost:3001`)
-  console.log(process.env)
 })

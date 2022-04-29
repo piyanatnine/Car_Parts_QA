@@ -35,7 +35,7 @@ insert into project (project_id, project_name, customer_id) values
 
 -- saltedMd5(password, Username)
 insert into employee (employee_id, first_name, last_name, position, username ,password) values
-(10101010, 'somsuay', 'naja', 'Admin', 'Admin10101010','d3984d3c985bee43f7f5204c7a3b797e'); /*somsuayInwZa007*/
+(10101010, 'somsuay', 'naja', 'Admin', 'Admin10101010','d3984d3c985bee43f7f5204c7a3b797e'), /*somsuayInwZa007*/
 (11111111, 'Jame', 'Olara', 'Admin', 'Admin11111111', 'f239e4400a942a4cd0139574fe84f3ac'), /*passwordAdmin*/
 (22222222, 'Quality', 'GodIT', 'QA', 'QA22222222','c2eb1e8d5d696f9a6bee768f03c57b2f'), /*passwordQA*/
 (33333333, 'Customer', 'is_A_God', 'User', 'User33333333','bca9665fca7bbf74d17d9607ce13fda6'), /*passwordUser*/
@@ -44,7 +44,7 @@ insert into employee (employee_id, first_name, last_name, position, username ,pa
 (66666666, 'padthai', 'maisaipak', 'User', 'User66666666','358ee8193ef61555ec9a5ac358303e64'), /*padthainaja*/
 (77777777, 'somying', 'mahakai', 'User', 'User77777777','b3cc7f2f0909f821fb59ae4ee80a6326'), /*maha6534864651*/
 (88888888, 'peter', 'parker', 'User', 'User88888888','606fd0fd0c6183b1f2659c8f4ba6f87f'), /*IamSpiderman*/
-(99999999, 'sommai', 'kloyjai', 'Admin', 'Admin99999999','914be94dba4f5cf7540be24ccaeb2ddf'), /*som216516515*/
+(99999999, 'sommai', 'kloyjai', 'Admin', 'Admin99999999','914be94dba4f5cf7540be24ccaeb2ddf'); /*som216516515*/
 
 insert into project_employee (project_id, employee_ID) values 
 (1, 11111111),

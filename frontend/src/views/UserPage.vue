@@ -227,7 +227,7 @@ export default {
     async getData() {
       await axios
         .get(
-          `http://localhost:3000/user/${this.$route.params.employee_id}/userpage`
+          `${process.env.VUE_APP_APIS_TARGET}/user/${this.$route.params.employee_id}/userpage`
         )
         .then((response) => {
           this.log = response.data.logs;

@@ -2,16 +2,14 @@
 node_modules
 /dist
 /node_modules
-
+package-lock.json
 
 #PDF
 /static/uploads
-# sql password
-/config.js
+
 
 # local env files
-.env.local
-.env.*.local
+.env**
 
 # Log files
 npm-debug.log*

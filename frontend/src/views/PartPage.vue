@@ -698,7 +698,7 @@ export default {
       }
     },
     async logHistory(type) {
-      await axios.get(`http://localhost:3000/${this.$route.params.project_id}/${this.$route.params.part_number}/history/${type}`)
+      await axios.get(`${process.env.VUE_APP_APIS_TARGET}/${this.$route.params.project_id}/${this.$route.params.part_number}/history/${type}`)
         .then( (response) => {
           this.log_history = response.data
         })
@@ -710,7 +710,7 @@ export default {
     async getPartData() {
       await axios
         .get(
-          `http://localhost:3000/${this.$route.params.project_id}/${this.$route.params.part_number}`
+          `${process.env.VUE_APP_APIS_TARGET}/${this.$route.params.project_id}/${this.$route.params.part_number}`
         )
         .then((response) => {
           this.part = response.data.part[0];
@@ -757,7 +757,7 @@ export default {
 
       await axios
         .post(
-          `http://localhost:3000/${this.$route.params.project_id}/${this.$route.params.part_number}`,
+          `${process.env.VUE_APP_APIS_TARGET}/${this.$route.params.project_id}/${this.$route.params.part_number}`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         )
@@ -785,7 +785,7 @@ export default {
       //axios
       await axios
         .put(
-          `http://localhost:3000/${this.$route.params.project_id}/${this.$route.params.part_number}`,
+          `${process.env.VUE_APP_APIS_TARGET}/${this.$route.params.project_id}/${this.$route.params.part_number}`,
           formData,
           {
             headers: {
@@ -848,7 +848,7 @@ export default {
         //axios
         await axios
         .put(
-          `http://localhost:3000/${this.$route.params.project_id}/${this.$route.params.part_number}/status`,
+          `${process.env.VUE_APP_APIS_TARGET}/${this.$route.params.project_id}/${this.$route.params.part_number}/status`,
           { upload_no: this.upload_no, user_id: this.user.employee_id }
         )
         .then((response) => {
@@ -875,7 +875,7 @@ export default {
     },
     path(txt) {
       if (txt) {
-        return "http://localhost:3000/" + txt;
+        return `${process.env.VUE_APP_APIS_TARGET}/` + txt;
       } else {
         return "";
       }

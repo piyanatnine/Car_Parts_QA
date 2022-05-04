@@ -120,6 +120,7 @@ router.put(`/:project_id/:part_number/status`, async function (req, res, next) {
 router.put('/:project_id/:part_number', uploadStorage.single("file"), async function (req, res, next) {
   const conn = await pool.getConnection();
   await conn.beginTransaction();
+  console.log('hi')
   try {
     const file_pdf = req.file;
     // console.log(req.file) 

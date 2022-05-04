@@ -1,10 +1,10 @@
 {
   "name": "frontend",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
-    "serve": "SET NODE_ENV=development && vue-cli-service serve",
-    "build": "SET NODE_ENV=production && vue-cli-service build",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
